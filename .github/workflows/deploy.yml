@@ -21,14 +21,16 @@ jobs:
           composer install --no-dev --optimize-autoloader
 
       - name: Deploy via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           server-dir: cnrst-suivi-travaux.66ghz.com/htdocs/
+          security: loose
           exclude: |
-            .git*
-            .github/
-            node_modules/
-            tests/
+            **/.git*
+            **/.git*/** 
+            **/node_modules/**
+            **/tests/**
+            **/.github/**
