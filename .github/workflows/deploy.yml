@@ -28,8 +28,6 @@ jobs:
           server-dir: htdocs/
           exclude: |
             .git*
-            .env
-            .env.example
+            .github/
             node_modules/
             tests/
-            .github/
