@@ -30,8 +30,6 @@ jobs:
             .git*
             .env
             .env.example
-            vendor/
             node_modules/
-            storage/
             tests/
             .github/
