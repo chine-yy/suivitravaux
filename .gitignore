@@ -1,2 +1,15 @@
- # Ignore only the root .env file. All other files/directories must be tracked.
+/vendor
+/node_modules
+/public/hot
+/public/storage
+/storage/*.key
 .env
+.env.backup
+.phpunit.result.cache
+Homestead.yaml
+Homestead.json
+npm-debug.log
+yarn-error.log
+/.idea
+/.vscode
+.DS_Store
