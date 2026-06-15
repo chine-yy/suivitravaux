@@ -1,0 +1,216 @@
+<?php $__env->startSection('title', 'Gestion des Sous-Tâches'); ?>
+
+<?php $__env->startSection('breadcrumb'); ?>
+    <span class="text-muted">Sous-Tâches</span>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+    <div class="cp-dashboard">
+        <div class="cp-content">
+            <div class="cp-page-header">
+                <div>
+                    <h1 class="cp-page-title"><i class="bi bi-list-check me-2"></i>Gestion des Sous-Tâches</h1>
+                    <p class="cp-page-subtitle">Visualisez et gérez les sous-tâches</p>
+                </div>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-outline-danger"
+                        onclick="exportToPdf('sous-tachesTable', 'Liste des sous-taches', 'sous-taches_export')">
+                        <i class="bi bi-file-earmark-pdf me-2"></i>Exporter tout
+                    </button>
+                    <a href="<?php echo e(route('super-admin.sous-taches.create')); ?>" class="btn btn-primary px-4">
+                        <i class="bi bi-plus-circle me-2"></i>Créer une Sous-Tâche
+                    </a>
+                </div>
+            </div>
+
+
+            <div class="cp-chart-card mb-4">
+                <div class="cp-chart-header">
+                    <h6 class="cp-chart-title"><i class="bi bi-filter me-2"></i>Filtres de recherche</h6>
+                </div>
+                <div class="p-4">
+                    <form action="<?php echo e(route('super-admin.sous-taches.index')); ?>" method="GET" class="row g-3">
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold">Titre de la Sous-Tâche</label>
+                            <input type="text" name="titre" class="form-control form-control-sm"
+                                placeholder="Ex: Ponçage, Deuxième couche..." value="<?php echo e(request('titre')); ?>">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small fw-bold">Tâche Parente</label>
+                            <select name="tache_id" class="form-select form-select-sm">
+                                <option value="">Toutes les tâches</option>
+                                <?php $__currentLoopData = $taches; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $tache): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <option value="<?php echo e($tache->id); ?>" <?php echo e(request('tache_id') == $tache->id ? 'selected' : ''); ?>><?php echo e($tache->titre); ?></option>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small fw-bold">Statut</label>
+                            <select name="statut" class="form-select form-select-sm">
+                                <option value="">Tous les statuts</option>
+                                <option value="en_attente" <?php echo e(request('statut') == 'en_attente' ? 'selected' : ''); ?>>En
+                                    attente</option>
+                                <option value="en_cours" <?php echo e(request('statut') == 'en_cours' ? 'selected' : ''); ?>>En cours
+                                </option>
+                                <option value="terminee" <?php echo e(request('statut') == 'terminee' ? 'selected' : ''); ?>>Terminée
+                                </option>
+                                <option value="bloquee" <?php echo e(request('statut') == 'bloquee' ? 'selected' : ''); ?>>Bloquée
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end gap-2">
+                            <button type="submit" class="btn btn-sm btn-primary w-100">
+                                <i class="bi bi-search me-1"></i> Filtrer
+                            </button>
+                            <a href="<?php echo e(route('super-admin.sous-taches.index')); ?>" class="btn btn-sm btn-outline-secondary">
+                                <i class="bi bi-arrow-counterclockwise"></i>
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
+            <div class="cp-chart-card">
+                <div class="cp-chart-header">
+                    <h6 class="cp-chart-title"><i class="bi bi-list-ul me-2"></i>Liste des Sous-Tâches</h6>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0" id="sous-tachesTable">
+                        <thead>
+                            <tr style="background: rgba(99,102,241,.08);">
+                                <th>Sous-Tâche</th>
+                                <th>Tâche Parente</th>
+                                <th>Projet / Phase</th>
+                                <th>Personne assignée</th>
+                                <th>Statut</th>
+                                <th>Avancement</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php $__empty_1 = true; $__currentLoopData = $sousTaches; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $sousTache): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                                                <tr>
+                                                    <td><strong><?php echo e($sousTache->titre); ?></strong></td>
+                                                    <td>
+                                                        <span class="badge bg-light text-dark"><?php echo e($sousTache->tache ? ($sousTache->tache->titre
+                                ?? 'Tâche #' . $sousTache->tache->id) : 'N/A'); ?></span>
+                                                    </td>
+                                                    <td>
+                                                         <div class="text-muted small">
+                                                             <i class="bi bi-briefcase me-1"></i><?php echo e($sousTache->tache &&
+ $sousTache->tache->projet ? $sousTache->tache->projet->nom : 'N/A'); ?>
+
+                                                             <?php if($sousTache->tache && $sousTache->tache->phase): ?>
+                                                                 / <?php echo e($sousTache->tache->phase->nom); ?>
+
+                                                             <?php endif; ?>
+                                                         </div>
+                                                     </td>
+                                                    <td>
+                                                        <?php if($sousTache->user): ?>
+                                                            <div class="d-flex align-items-center gap-2">
+                                                                <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold"
+                                                                    style="width:24px;height:24px;font-size:0.7rem;">
+                                                                    <?php echo e(strtoupper(substr($sousTache->user->name, 0, 1))); ?>
+
+                                                                </div>
+                                                                <span class="small"><?php echo e($sousTache->user->name); ?></span>
+                                                            </div>
+                                                        <?php else: ?>
+                                                            <span class="text-muted small"></span>
+                                                        <?php endif; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php
+                                                            $statusBadge = [
+                                                                'en_attente' => 'bg-secondary',
+                                                                'en_cours' => 'bg-primary',
+                                                                'terminee' => 'bg-success',
+                                                                'bloquee' => 'bg-danger'
+                                                            ][$sousTache->statut] ?? 'bg-secondary';
+                                                            $statusText = [
+                                                                'en_attente' => 'En attente',
+                                                                'en_cours' => 'En cours',
+                                                                'terminee' => 'Terminée',
+                                                                'bloquee' => 'Bloquée'
+                                                            ][$sousTache->statut] ?? ucfirst($sousTache->statut ?? 'N/A');
+                                                        ?>
+                                                        <span class="badge <?php echo e($statusBadge); ?>"><?php echo e($statusText); ?></span>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <div class="progress flex-grow-1" style="height: 6px;">
+                                                                <div class="progress-bar bg-primary" role="progressbar"
+                                                                    style="width: <?php echo e($sousTache->avancement ?? 0); ?>%;"></div>
+                                                            </div>
+                                                            <span class="small fw-bold" style="min-width: 40px;"><?php echo e($sousTache->avancement ?? 0); ?>%</span>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-end">
+                                                        <div class="d-flex gap-1 justify-content-end">
+                                                            <a href="<?php echo e(route('super-admin.sous-taches.show', $sousTache->id)); ?>"
+                                                                class="btn btn-sm btn-outline-secondary" title="Voir">
+                                                                <i class="bi bi-eye"></i>
+                                                            </a>
+                                                            <?php echo $__env->make('partials.row-export', ['id' => $sousTache->id, 'prefix' => 'sous-tache', 'title' => 'Sous-Tâche - ' . ($sousTache->titre ?? $sousTache->id)], array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
+                                                            <a href="<?php echo e(route('super-admin.sous-taches.edit', $sousTache->id)); ?>"
+                                                                class="btn btn-sm btn-outline-primary" title="Modifier">
+                                                                <i class="bi bi-pencil"></i>
+                                                            </a>
+                                                            <form action="<?php echo e(route('super-admin.sous-taches.destroy', $sousTache->id)); ?>"
+                                                                method="POST" class="d-inline">
+                                                                <?php echo csrf_field(); ?>
+                                                                <?php echo method_field('DELETE'); ?>
+                                                                <button type="submit" class="btn btn-sm btn-outline-danger"
+                                                                    onclick="return confirm('Supprimer cette sous-tâche ?')" title="Supprimer">
+                                                                    <i class="bi bi-trash"></i>
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                                <tr>
+                                    <td colspan="6" class="text-center py-5 text-muted">
+                                        <i class="bi bi-list-check display-4"></i>
+                                        <p class="mt-3">Aucune sous-tâche trouvée</p>
+                                        <button class="btn btn-outline-danger" onclick="exportToPdf('id="
+                                            sous-tachesTable"', 'Liste des sous-taches' , 'sous-taches_export' )"> <i
+                                                class="bi bi-file-earmark-pdf me-2"></i> Exporter </button>
+                                        <a href="<?php echo e(route('super-admin.sous-taches.create')); ?>">Créer une sous-tâche</a>
+                                    </td>
+                                </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startPush('scripts'); ?>
+    <script>
+        var table = document.getElementById(tableId);
+        if (!table) return;
+        var csv = [];
+        var rows = table.querySelectorAll('tr');
+        for (var i = 0; i < rows.length; i++) {
+            var cols = rows[i].querySelectorAll('th, td');
+            var row = [];
+            for (var j = 0; j < cols.length; j++) {
+                var text = cols[j].innerText.replace(/(||)/gm, ' ').replace(/"/g, '""').trim();
+                row.push('"' + text + '"');
+            }
+            csv.push(row.join(';'));
+        }
+        var blob = new Blob(['\uFEFF' + csv.join('')], { type: 'text/csv;charset=utf-8;' });
+        var link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = (filename || 'export') + '_' + new Date().toISOString().slice(0, 10) + '.csv';
+        link.click();
+    }
+    </script>
+<?php $__env->stopPush(); ?>
+<?php echo $__env->make('layouts.super-admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH /home/dydy/Documents/base/laravel/suivitravaux CNRST/resources/views/super-admin/sous-taches/index.blade.php ENDPATH**/ ?>

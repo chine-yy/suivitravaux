@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Rapport - {{ $rapport->titre }}</title>
+    <style>
+        body { font-family: 'Helvetica', 'Arial', sans-serif; color: #333; line-height: 1.5; }
+        .header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #009A44; padding-bottom: 10px; }
+        .footer { position: fixed; bottom: 0; width: 100%; text-align: center; font-size: 10px; color: #777; border-top: 1px solid #eee; padding-top: 5px; }
+        .content { margin-bottom: 20px; }
+        .info-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        .info-table td { padding: 8px; border: 1px solid #eee; }
+        .info-table .label { font-weight: bold; background-color: #fcfcfc; width: 30%; }
+        .section-title { color: #009A44; border-bottom: 1px solid #a5d6a7; margin-top: 20px; padding-bottom: 5px; font-size: 16px; }
+        .text-box { background-color: #fafafa; padding: 15px; border-radius: 5px; border: 1px solid #f0f0f0; margin-top: 5px; min-height: 100px; white-space: pre-wrap; }
+        .badge { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; color: #fff; }
+        .bg-success { background-color: #009A44; }
+        .bg-green { background-color: #009A44; }
+        .logo { font-size: 24px; font-weight: bold; color: #009A44; margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">CNRST SUIVI TRAVAUX</div>
+        <div style="font-size: 18px; text-transform: uppercase;">Rapport d'activité</div>
+        <div style="font-size: 14px; color: #666;">Généré le {{ now()->format('d/m/Y à H:i') }}</div>
+    </div>
+
+    <div class="content">
+        <h4 class="section-title">Informations Générales</h4>
+        <table class="info-table">
+            <tr>
+                <td class="label">Titre du Rapport</td>
+                <td>{{ $rapport->titre }}</td>
+            </tr>
+            <tr>
+                <td class="label">Projet</td>
+                <td>{{ $rapport->projet->nom ?? 'N/A' }}</td>
+            </tr>
+            <tr>
+                <td class="label">Date du Rapport</td>
+                <td>{{ \Carbon\Carbon::parse($rapport->created_at)->format('d/m/Y') }}</td>
+            </tr>
+            <tr>
+                <td class="label">Type</td>
+                <td>{{ $rapport->getTypeLabel() }}</td>
+            </tr>
+            <tr>
+                <td class="label">Auteur</td>
+                <td>
+                    <strong>{{ $rapport->auteur->prenom ?? '' }} {{ $rapport->auteur->name ?? 'N/A' }}</strong><br>
+                    <small>{{ $rapport->auteur->role->nom ?? 'Auteur' }}</small>
+                </td>
+            </tr>
+            <tr>
+                <td class="label">Statut</td>
+                <td>
+                    @if($rapport->statut === 'valide')
+                        <span style="color: #009A44; font-weight: bold;">Validé</span>
+                    @elseif($rapport->statut === 'rejete')
+                        <span style="color: #ef4444; font-weight: bold;">Rejeté</span>
+                    @else
+                        <span style="color: #3b82f6; font-weight: bold;">Soumis</span>
+                    @endif
+                </td>
+            </tr>
+        </table>
+
+        @if($rapport->contenu)
+            <h4 class="section-title">Contenu du Rapport</h4>
+            <div class="text-box">{{ $rapport->contenu }}</div>
+        @endif
+
+        @if($rapport->observations)
+            <h4 class="section-title">Observations</h4>
+            <div class="text-box">{{ $rapport->observations }}</div>
+        @endif
+
+        @if($rapport->avancement_constate)
+            <h4 class="section-title">Avancement</h4>
+            <div style="margin-top: 10px;">
+                <div style="width: 100%; background-color: #eee; height: 20px; border-radius: 10px;">
+                    <div style="width: {{ $rapport->avancement_constate }}%; background-color: #009A44; height: 20px; border-radius: 10px; text-align: center; color: white; font-size: 12px; line-height: 20px;">
+                        {{ $rapport->avancement_constate }}%
+                    </div>
+                </div>
+            </div>
+        @endif
+    </div>
+
+    <div class="footer">
+        Document confidentiel - Projet {{ $rapport->projet->nom ?? 'N/A' }} - &copy; {{ date('Y') }} CNRST
+    </div>
+</body>
+</html>

@@ -1,0 +1,387 @@
+/* ====================================================
+   LOGIN PAGE — KAFYKA (Same design as Homepage)
+   ==================================================== */
+
+:root {
+    --primary: #009A44;
+    --primary-strong: #007a35;
+    --primary-soft: rgba(0, 154, 68, 0.1);
+    --secondary-blue: #1e293b;
+    --dark-slate: #0f172a;
+    --gray-light: #f8fafc;
+    --gray-medium: #64748b;
+    --gray-border: #e2e8f0;
+    --success: #009A44;
+    --danger: #ef4444;
+    --card-radius: 24px;
+    --white: #ffffff;
+}
+
+/* ---------- Page background (White like homepage) ---------- */
+.auth-page {
+    min-height: calc(100vh - 180px);
+    background: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle background shapes */
+.auth-page::before,
+.auth-page::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    pointer-events: none;
+}
+
+.auth-page::before {
+    width: 400px;
+    height: 400px;
+    background: rgba(0, 154, 68, 0.06);
+    top: -100px;
+    right: -50px;
+}
+
+.auth-page::after {
+    width: 300px;
+    height: 300px;
+    background: rgba(30, 41, 59, 0.04);
+    bottom: -50px;
+    left: -50px;
+}
+
+/* ---------- Card wrapper ---------- */
+.auth-wrapper {
+    width: 100%;
+    max-width: 440px;
+    position: relative;
+    z-index: 1;
+}
+
+.auth-card {
+    background: var(--white);
+    border-radius: var(--card-radius);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    border: 1px solid var(--gray-border);
+    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUp {
+    0% { opacity: 0; transform: translateY(30px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- Card header ---------- */
+.auth-card-header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-strong));
+    padding: 2rem;
+    text-align: center;
+    color: white;
+    position: relative;
+}
+
+.auth-card-header .brand-icon {
+    width: 64px;
+    height: 64px;
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    margin: 0 auto 1rem;
+    transition: transform 0.3s ease;
+}
+
+.auth-card-header .brand-icon:hover {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.auth-card-header h1 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin: 0 0 0.3rem;
+    color: white;
+}
+
+.auth-card-header p {
+    font-size: 0.9rem;
+    opacity: 0.95;
+    margin: 0;
+    color: white;
+}
+
+/* ---------- Card body ---------- */
+.auth-card-body {
+    padding: 2rem;
+}
+
+/* ---------- Form labels ---------- */
+.auth-card-body .form-label {
+    font-weight: 600;
+    color: var(--dark-slate);
+    font-size: 0.9rem;
+    margin-bottom: 0.4rem;
+}
+
+/* ---------- Input groups ---------- */
+.auth-card-body .input-group {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.auth-card-body .input-group-text {
+    background: var(--gray-light);
+    border: 1.5px solid var(--gray-border);
+    border-right: none;
+    color: var(--gray-medium);
+    padding: 0.65rem 0.85rem;
+    transition: all 0.2s ease;
+}
+
+.auth-card-body .input-group-text:last-child,
+.auth-card-body .btn-toggle-pw {
+    border-radius: 0 12px 12px 0 !important;
+    border-left: none;
+    border-right: 1.5px solid var(--gray-border);
+}
+
+.auth-card-body .form-control,
+.auth-card-body .form-select {
+    border: 1.5px solid var(--gray-border);
+    padding: 0.65rem 0.9rem;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    border-radius: 12px;
+    border-left: none;
+    background: var(--gray-light);
+    color: var(--dark-slate);
+}
+
+.auth-card-body .form-select {
+    border-left: 1.5px solid var(--gray-border);
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+.auth-card-body .form-control:focus,
+.auth-card-body .form-select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-soft);
+    background: var(--white);
+    outline: none;
+    color: var(--dark-slate);
+}
+
+.auth-card-body .form-control::placeholder {
+    color: var(--gray-medium);
+}
+
+.auth-card-body .input-group:focus-within .input-group-text {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: var(--primary-soft);
+}
+
+/* ---------- Validation ---------- */
+.auth-card-body .invalid-feedback {
+    font-size: 0.8rem;
+    margin-top: 0.35rem;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--danger);
+}
+
+.auth-card-body .form-control.is-invalid,
+.auth-card-body .form-select.is-invalid {
+    border-color: var(--danger);
+    background-image: none;
+}
+
+.auth-card-body .form-control.is-invalid ~ .input-group-text,
+.auth-card-body .input-group:has(.is-invalid) .input-group-text {
+    border-color: var(--danger);
+    color: var(--danger);
+}
+
+/* ---------- Checkbox ---------- */
+.auth-card-body .form-check {
+    padding-left: 1.6rem;
+}
+
+.auth-card-body .form-check-input {
+    width: 1.1rem;
+    height: 1.1rem;
+    margin-top: 0.1rem;
+    margin-left: -1.6rem;
+    cursor: pointer;
+    border: 2px solid var(--gray-border);
+}
+
+.auth-card-body .form-check-input:checked {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+.auth-card-body .form-check-input:focus {
+    box-shadow: 0 0 0 3px var(--primary-soft);
+}
+
+.auth-card-body .form-check-label {
+    color: var(--gray-medium);
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+/* ---------- Buttons ---------- */
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary), var(--primary-strong));
+    border: none;
+    border-radius: 12px;
+    padding: 0.8rem 1.5rem;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 154, 68, 0.35);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--primary-strong), #005a28);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 154, 68, 0.45);
+    color: white;
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-primary:focus {
+    box-shadow: 0 0 0 0.25rem rgba(0, 154, 68, 0.4);
+}
+
+.btn-primary:disabled {
+    opacity: 0.7;
+    transform: none;
+}
+
+/* ---------- Links ---------- */
+.text-primary {
+    color: var(--primary) !important;
+}
+
+.fw-600 {
+    font-weight: 600;
+}
+
+.forgot-link {
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.85rem;
+    color: var(--gray-medium);
+    transition: color 0.2s;
+}
+
+.forgot-link:hover {
+    color: var(--primary-strong) !important;
+}
+
+/* ---------- Footer ---------- */
+.auth-footer {
+    text-align: center;
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--gray-border);
+    font-size: 0.9rem;
+    color: var(--gray-medium);
+}
+
+.auth-footer a {
+    text-decoration: none;
+    font-weight: 600;
+    color: var(--primary);
+    transition: color 0.2s;
+}
+
+.auth-footer a:hover {
+    color: var(--primary-strong);
+    text-decoration: underline;
+}
+
+/* ---------- Alerts ---------- */
+.auth-card-body .alert {
+    border-radius: 12px;
+    font-size: 0.85rem;
+    border: none;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.alert-success {
+    background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+    color: #005a28;
+    border-left: 4px solid var(--success);
+}
+
+.alert-danger {
+    background: linear-gradient(135deg, #fef2f2, #fecaca);
+    color: #991b1b;
+    border-left: 4px solid var(--danger);
+}
+
+/* ---------- Password toggle ---------- */
+.btn-toggle-pw {
+    background: var(--gray-light);
+    border: 1.5px solid var(--gray-border);
+    border-left: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-toggle-pw:hover {
+    background: var(--primary-soft);
+    color: var(--primary);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 480px) {
+    .auth-page {
+        padding: 1rem;
+        align-items: center;
+    }
+    
+    .auth-card {
+        border-radius: 16px;
+    }
+    
+    .auth-card-body {
+        padding: 1.5rem;
+    }
+    
+    .auth-card-header {
+        padding: 1.75rem 1.5rem;
+    }
+    
+    .auth-card-header .brand-icon {
+        width: 56px;
+        height: 56px;
+        font-size: 1.5rem;
+    }
+    
+    .auth-card-header h1 {
+        font-size: 1.35rem;
+    }
+}
+

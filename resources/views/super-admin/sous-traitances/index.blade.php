@@ -1,0 +1,205 @@
+@extends('layouts.super-admin')
+
+@section('title', 'Sous-Traitances')
+
+@section('breadcrumb')
+<span class="cp-breadcrumb-item">Sous-Traitances</span>
+@endsection
+
+@section('content')
+<div class="cp-dashboard">
+    <div class="cp-content">
+        <div class="cp-page-header">
+            <div>
+                <h1 class="cp-page-title"><i class="bi bi-people me-2"></i>Sous-Traitances</h1>
+                <p class="cp-page-subtitle">Gérez les interventions de sous-traitance sur vos projets</p>
+            </div>
+            <div class="d-flex gap-2">
+                <button class="btn btn-outline-danger" onclick="exportToPdf('sous-traitancesTable', 'Liste des sous-traitances', 'sous-traitances_export')">
+                    <i class="bi bi-file-earmark-pdf me-2"></i>Exporter tout
+                </button>
+                <a href="{{ route('super-admin.dashboard') }}" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left me-2"></i>Retour
+                </a>
+            </div>
+        </div>
+
+
+            <div class="cp-stats-grid mb-4">
+                <div class="cp-stat-card">
+                    <div class="cp-stat-icon cp-bg-primary"><i class="bi bi-tools"></i></div>
+                    <div class="cp-stat-content">
+                        <div class="cp-stat-value">{{ $sousTraitances->count() }}</div>
+                        <div class="cp-stat-label">Total</div>
+                    </div>
+                </div>
+                <div class="cp-stat-card">
+                    <div class="cp-stat-icon cp-bg-green"><i class="bi bi-hourglass-split"></i></div>
+                    <div class="cp-stat-content">
+                        <div class="cp-stat-value">{{ $sousTraitances->where('statut', 'en_cours')->count() }}</div>
+                        <div class="cp-stat-label">En cours</div>
+                    </div>
+                </div>
+                <div class="cp-stat-card">
+                    <div class="cp-stat-icon cp-bg-success"><i class="bi bi-check-lg"></i></div>
+                    <div class="cp-stat-content">
+                        <div class="cp-stat-value">{{ $sousTraitances->where('statut', 'terminee')->count() }}</div>
+                        <div class="cp-stat-label">Terminées</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filtre -->
+            <div class="cp-chart-card mb-4">
+                <div class="cp-chart-header">
+                    <h6 class="cp-chart-title"><i class="bi bi-filter me-2"></i>Filtres de recherche</h6>
+                </div>
+                <div class="p-4">
+                    <form action="{{ route('super-admin.sous-traitances.index') }}" method="GET" class="row g-3">
+                        <div class="col-md-5">
+                            <label class="form-label small fw-bold">Entreprise / Contact</label>
+                            <input type="text" name="search" class="form-control form-control-sm"
+                                placeholder="Rechercher..." value="{{ request('search') }}">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small fw-bold">Projet</label>
+                            <select name="projet_id" class="form-select form-select-sm">
+                                <option value="">Tous les projets</option>
+                                @foreach($projets as $projet)
+                                <option value="{{ $projet->id }}" {{ request('projet_id')==$projet->id ? 'selected' : ''
+                                    }}>
+                                    {{ $projet->nom }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label small fw-bold">Statut</label>
+                            <select name="statut" class="form-select form-select-sm">
+                                <option value="">Tous</option>
+                                <option value="en_attente" {{ request('statut')=='en_attente' ? 'selected' : '' }}>En
+                                    attente</option>
+                                <option value="en_cours" {{ request('statut')=='en_cours' ? 'selected' : '' }}>En cours
+                                </option>
+                                <option value="terminee" {{ request('statut')=='terminee' ? 'selected' : '' }}>Terminée
+                                </option>
+                                <option value="annule" {{ request('statut')=='annule' ? 'selected' : '' }}>Annulée
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end gap-2">
+                            <button type="submit" class="btn btn-sm btn-primary w-100">
+                                <i class="bi bi-search me-1"></i> Filtrer
+                            </button>
+                            <a href="{{ route('super-admin.sous-traitances.index') }}"
+                                class="btn btn-sm btn-outline-secondary">
+                                <i class="bi bi-arrow-counterclockwise"></i>
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="cp-chart-card">
+                <div class="cp-chart-header">
+                    <h6 class="cp-chart-title"><i class="bi bi-list-ul me-2"></i>Liste des Sous-Traitances</h6>
+                    <a href="{{ route('super-admin.sous-traitances.create') }}" class="btn btn-primary btn-sm">
+                        <i class="bi bi-plus-circle me-1"></i> Nouvelle sous-traitance
+                    </a>
+                </div>
+            <div class="table-responsive">
+                <table class="table table-hover mb-0" id="sous-traitancesTable">
+                    <thead>
+                        <tr>
+                            <th>Entreprise</th>
+                            <th>Projet</th>
+                            <th>Contact</th>
+                            <th>Employés</th>
+                            <th>Statut</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($sousTraitances as $st)
+                        <tr>
+                            <td>
+                                <strong>{{ $st->nom_entreprise }}</strong>
+                                @if($st->description_tache)
+                                <br><small class="text-muted">{{ Str::limit($st->description_tache, 50) }}</small>
+                                @endif
+                            </td>
+                            <td>{{ $st->projet?->nom ?? 'N/A' }}</td>
+                            <td>
+                                @if($st->contact_nom)
+                                {{ $st->contact_prenom }} {{ $st->contact_nom }}
+                                @if($st->contact_telephone)
+                                <br><small class="text-muted"><i class="bi bi-telephone me-1"></i>{{
+                                    $st->contact_telephone }}</small>
+                                @endif
+                                @else
+                                N/A
+                                @endif
+                            </td>
+                            <td class="text-center">
+                                <span class="badge bg-info">{{ $st->nombre_employes }}</span>
+                            </td>
+                            <td>
+                                @php
+                                $statusBadge = [
+                                'en_attente' => 'bg-secondary',
+                                'en_cours' => 'bg-primary',
+                                'terminee' => 'bg-success',
+                                'annule' => 'bg-danger'
+                                ][$st->statut] ?? 'bg-secondary';
+                                $statusText = [
+                                'en_attente' => 'En attente',
+                                'en_cours' => 'En cours',
+                                'terminee' => 'Terminée',
+                                'annule' => 'Annulé'
+                                ][$st->statut] ?? ucfirst($st->statut ?? 'N/A');
+                                @endphp
+                                <span class="badge {{ $statusBadge }}">{{ $statusText }}</span>
+                            </td>
+                            <td class="text-end">
+                                <div class="d-flex gap-1 justify-content-end">
+                                    <a href="{{ route('super-admin.sous-traitances.show', $st->id) }}"
+                                        class="btn btn-sm btn-outline-info" title="Voir">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                    <a href="{{ route('super-admin.sous-traitances.edit', $st->id) }}"
+                                        class="btn btn-sm btn-outline-primary" title="Modifier">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    @include('partials.row-export', ['id' => $st->id, 'prefix' => 'soustraitance', 'title' => 'Sous-traitance'])
+                                    <form action="{{ route('super-admin.sous-traitances.destroy', $st->id) }}"
+                                        method="POST" class="d-inline">
+                                        @csrf @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-outline-danger"
+                                            onclick="return confirm('Supprimer cette sous-traitance ?')"
+                                            title="Supprimer">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="6" class="text-center py-5 text-muted">
+                                <i class="bi bi-people display-4"></i>
+                                <p class="mt-3">Aucune sous-traitance enregistrée</p>
+                                <a href="{{ route('super-admin.sous-traitances.create') }}"
+                                    class="btn btn-primary">Ajouter une sous-traitance</a>
+                            </td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</script>
+@endsection

@@ -1,0 +1,285 @@
+/* ====================================================
+   FOOTER CSS - KAFYKA Premium Modern
+   ==================================================== */
+:root {
+    --primary-green: #009A44;
+    --primary-dark: #007a35;
+    --primary-soft: rgba(0, 154, 68, 0.15);
+    --secondary-blue: #1e293b;
+    --dark-slate: #0f172a;
+    --gray-light: #f8fafc;
+    --gray-medium: #64748b;
+    --glass-bg: rgba(255, 255, 255, 0.05);
+}
+
+/* ---------- Footer Base ---------- */
+.footer-dark {
+    background: linear-gradient(180deg, var(--dark-slate) 0%, #020617 100%);
+    color: #e2e8f0;
+    border-top: 3px solid var(--primary-green);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Background pattern */
+.footer-dark::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 50%, rgba(0, 154, 68, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(0, 154, 68, 0.05) 0%, transparent 40%);
+    pointer-events: none;
+}
+
+.footer-dark .container {
+    position: relative;
+    z-index: 1;
+}
+
+/* ---------- Brand Section ---------- */
+.footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    text-decoration: none;
+}
+
+.footer-brand-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--primary-green), var(--primary-dark));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+    box-shadow: 0 8px 20px rgba(0, 154, 68, 0.3);
+    transition: transform 0.3s ease;
+}
+
+.footer-brand:hover .footer-brand-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.footer-brand-text {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: white;
+    letter-spacing: -0.02em;
+}
+
+.footer-description {
+    color: #94a3b8;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    max-width: 280px;
+}
+
+/* ---------- Section Titles ---------- */
+.footer-dark h6 {
+    color: white;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    margin-bottom: 20px;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.footer-dark h6::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 30px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--primary-green), var(--primary-dark));
+    border-radius: 2px;
+}
+
+/* ---------- Links ---------- */
+.footer-dark ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-dark ul li {
+    margin-bottom: 12px;
+}
+
+.footer-dark ul li a {
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    padding-left: 0;
+}
+
+.footer-dark ul li a::before {
+    content: '\F235';
+    font-family: 'bootstrap-icons';
+    font-size: 0.7rem;
+    color: var(--primary-green);
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.25s ease;
+}
+
+.footer-dark ul li a:hover {
+    color: var(--primary-green);
+    padding-left: 15px;
+}
+
+.footer-dark ul li a:hover::before {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* ---------- Social Links ---------- */
+.social-links {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.social-links a {
+    width: 42px;
+    height: 42px;
+    background: var(--glass-bg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #94a3b8;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.social-links a:hover {
+    background: linear-gradient(135deg, var(--primary-green), var(--primary-dark));
+    color: white;
+    border-color: transparent;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 154, 68, 0.35);
+}
+
+/* ---------- Contact Info ---------- */
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.contact-info-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: #94a3b8;
+    font-size: 0.9rem;
+}
+
+.contact-info-item i {
+    width: 36px;
+    height: 36px;
+    background: var(--primary-soft);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-green);
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+/* ---------- Divider ---------- */
+.footer-dark hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    margin: 30px 0 20px;
+}
+
+/* ---------- Bottom Footer ---------- */
+.footer-bottom {
+    text-align: center;
+    padding-top: 10px;
+}
+
+.footer-bottom p {
+    color: #64748b;
+    font-size: 0.875rem;
+    margin: 0;
+}
+
+.footer-bottom a {
+    color: var(--primary-green);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.footer-bottom a:hover {
+    color: white;
+}
+
+/* ---------- Text Colors ---------- */
+.text-green {
+    color: var(--primary-green) !important;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 767px) {
+    .footer-dark {
+        padding-top: 50px;
+    }
+    
+    .footer-brand {
+        justify-content: center;
+    }
+    
+    .footer-description {
+        max-width: 100%;
+        text-align: center;
+    }
+    
+    .footer-dark h6 {
+        text-align: center;
+    }
+    
+    .footer-dark h6::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    .footer-dark ul li {
+        display: flex;
+        justify-content: center;
+    }
+    
+    .footer-dark ul li a {
+        justify-content: center;
+    }
+    
+    .social-links {
+        justify-content: center;
+    }
+    
+    .contact-info-item {
+        justify-content: center;
+    }
+}
+

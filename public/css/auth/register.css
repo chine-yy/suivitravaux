@@ -1,0 +1,450 @@
+/* ====================================================
+   REGISTER PAGE — KAFYKA (Same design as Homepage/Login)
+   ==================================================== */
+
+:root {
+    --primary: #009A44;
+    --primary-strong: #007a35;
+    --primary-soft: rgba(0, 154, 68, 0.1);
+    --secondary-blue: #1e293b;
+    --dark-slate: #0f172a;
+    --gray-light: #f8fafc;
+    --gray-medium: #64748b;
+    --gray-border: #e2e8f0;
+    --success: #009A44;
+    --danger: #ef4444;
+    --card-radius: 24px;
+    --white: #ffffff;
+}
+
+/* ---------- Page background (White like homepage) ---------- */
+.register-page {
+    min-height: calc(100vh - 180px);
+    background: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle background shapes */
+.register-page::before,
+.register-page::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    pointer-events: none;
+}
+
+.register-page::before {
+    width: 400px;
+    height: 400px;
+    background: rgba(0, 154, 68, 0.06);
+    top: -100px;
+    right: -50px;
+}
+
+.register-page::after {
+    width: 300px;
+    height: 300px;
+    background: rgba(30, 41, 59, 0.04);
+    bottom: -50px;
+    left: -50px;
+}
+
+/* ---------- Wrapper ---------- */
+.register-wrapper {
+    width: 100%;
+    max-width: 520px;
+    position: relative;
+    z-index: 1;
+}
+
+/* ---------- Card ---------- */
+.register-card {
+    background: var(--white);
+    border-radius: var(--card-radius);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    border: 1px solid var(--gray-border);
+    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUp {
+    0% { opacity: 0; transform: translateY(40px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- Header ---------- */
+.register-header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-strong));
+    color: #fff;
+    text-align: center;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.register-header > * {
+    position: relative;
+    z-index: 1;
+}
+
+.register-icon {
+    width: 64px;
+    height: 64px;
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    font-size: 1.75rem;
+    transition: transform 0.3s ease;
+}
+
+.register-icon:hover {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.register-header h1 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin: 0 0 0.3rem;
+    letter-spacing: -0.02em;
+}
+
+.register-header p {
+    margin: 0;
+    opacity: 0.95;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* ---------- Body ---------- */
+.register-body {
+    padding: 2rem;
+}
+
+/* ---------- Section titles ---------- */
+.section-title {
+    font-weight: 700;
+    color: var(--dark-slate);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid var(--gray-light);
+}
+
+.section-icon {
+    color: var(--primary);
+    font-size: 0.95rem;
+}
+
+/* ---------- Form labels ---------- */
+.form-label {
+    font-weight: 600;
+    color: var(--dark-slate);
+    font-size: 0.9rem;
+    margin-bottom: 0.4rem;
+}
+
+.form-label .text-danger {
+    color: var(--danger) !important;
+}
+
+/* ---------- Form controls ---------- */
+.register-body .form-control,
+.register-body .form-select {
+    border-radius: 12px;
+    border: 1.5px solid var(--gray-border);
+    padding: 0.65rem 0.9rem;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    background: var(--gray-light);
+    color: var(--dark-slate);
+}
+
+.register-body textarea.form-control {
+    height: auto;
+    min-height: 80px;
+    resize: vertical;
+}
+
+.register-body .form-control:focus,
+.register-body .form-select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-soft);
+    background: var(--white);
+    outline: none;
+}
+
+.register-body .form-control::placeholder {
+    color: var(--gray-medium);
+}
+
+/* ---------- Row gaps ---------- */
+.register-body .row.g-2 {
+    --bs-gutter-y: 0.5rem;
+    --bs-gutter-x: 0.75rem;
+}
+
+.register-body .mb-3 {
+    margin-bottom: 0.75rem !important;
+}
+
+/* ---------- Input groups ---------- */
+.register-body .input-group .input-group-text {
+    background: var(--gray-light);
+    border: 1.5px solid var(--gray-border);
+    border-right: none;
+    color: var(--gray-medium);
+    padding: 0.65rem 0.85rem;
+    transition: all 0.2s ease;
+}
+
+.register-body .input-group .input-group-text:first-child {
+    border-radius: 12px 0 0 12px;
+}
+
+.register-body .input-group .input-group-text:last-child,
+.register-body .input-group .btn-toggle-pw {
+    border-radius: 0 12px 12px 0 !important;
+    border-left: none;
+    border-right: 1.5px solid var(--gray-border);
+}
+
+.register-body .input-group .form-control {
+    border-left: none;
+}
+
+.col-12 .form-control,
+.col-12 .form-select {
+    border-radius: 12px;
+    border: 1.5px solid var(--gray-border);
+}
+
+.register-body .input-group:focus-within .input-group-text {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: var(--primary-soft);
+}
+
+/* ---------- Validation ---------- */
+.invalid-feedback {
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--danger);
+}
+
+.form-control.is-invalid,
+.form-select.is-invalid {
+    border-color: var(--danger);
+    background-image: none;
+    animation: shake 0.4s ease;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.input-group:has(.is-invalid) .input-group-text {
+    border-color: var(--danger);
+    color: var(--danger);
+}
+
+/* ---------- Buttons ---------- */
+.register-body .btn-primary {
+    background: linear-gradient(135deg, var(--primary), var(--primary-strong));
+    border: none;
+    border-radius: 12px;
+    padding: 0.8rem 1.5rem;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 154, 68, 0.35);
+    color: white;
+}
+
+.register-body .btn-primary.btn-lg {
+    padding: 0.85rem 1.5rem;
+    font-size: 1rem;
+}
+
+.register-body .btn-primary:hover {
+    background: linear-gradient(135deg, var(--primary-strong), #005a28);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 154, 68, 0.45);
+    color: white;
+}
+
+.register-body .btn-primary:active {
+    transform: translateY(0);
+}
+
+.register-body .btn-primary:focus {
+    box-shadow: 0 0 0 0.25rem rgba(0, 154, 68, 0.4);
+}
+
+.register-body .btn-primary:disabled {
+    opacity: 0.7;
+    transform: none;
+    cursor: not-allowed;
+}
+
+/* ---------- Links and text ---------- */
+.text-primary,
+.fw-600 {
+    color: var(--primary) !important;
+    font-weight: 600;
+}
+
+a.text-primary {
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+a.text-primary:hover {
+    color: var(--primary-strong) !important;
+}
+
+/* ---------- Checkbox ---------- */
+.register-body .form-check {
+    font-size: 0.9rem;
+    padding-left: 1.6rem;
+}
+
+.register-body .form-check-input {
+    width: 1.1rem;
+    height: 1.1rem;
+    margin-top: 0.1rem;
+    margin-left: -1.6rem;
+    cursor: pointer;
+    border: 2px solid var(--gray-border);
+}
+
+.form-check-input:checked {
+    background-color: var(--primary);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-soft);
+}
+
+.form-check-input:focus {
+    box-shadow: 0 0 0 3px var(--primary-soft);
+    border-color: var(--primary);
+}
+
+/* ---------- Footer ---------- */
+.auth-footer {
+    text-align: center;
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--gray-border);
+    font-size: 0.9rem;
+    color: var(--gray-medium);
+}
+
+/* ---------- Alerts ---------- */
+.register-body .alert {
+    border-radius: 12px;
+    font-size: 0.85rem;
+    border: none;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.register-body .alert-danger {
+    background: linear-gradient(135deg, #fef2f2, #fecaca);
+    color: #991b1b;
+    border-left: 4px solid var(--danger);
+}
+
+.register-body .alert-danger ul {
+    padding-left: 1rem;
+    font-size: 0.8rem;
+    margin-bottom: 0;
+}
+
+.register-body .alert-success {
+    background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+    color: #005a28;
+    border-left: 4px solid var(--success);
+}
+
+/* ---------- Password strength ---------- */
+.password-strength small {
+    font-size: 0.8rem;
+}
+
+#pwMatch small {
+    font-size: 0.8rem;
+}
+
+/* ---------- Password toggle ---------- */
+.btn-toggle-pw {
+    background: var(--gray-light);
+    border: 1.5px solid var(--gray-border);
+    border-left: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-toggle-pw:hover {
+    background: var(--primary-soft);
+    color: var(--primary);
+}
+
+/* ---------- Custom industry input ---------- */
+#custom_industry {
+    display: none;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 520px) {
+    .register-page {
+        padding: 1rem;
+        align-items: center;
+    }
+    
+    .register-card {
+        border-radius: 16px;
+    }
+    
+    .register-body {
+        padding: 1.5rem;
+    }
+    
+    .register-header {
+        padding: 1.75rem 1.5rem;
+    }
+    
+    .register-wrapper {
+        max-width: 100%;
+    }
+    
+    .register-icon {
+        width: 56px;
+        height: 56px;
+        font-size: 1.5rem;
+    }
+    
+    .register-header h1 {
+        font-size: 1.35rem;
+    }
+}
+

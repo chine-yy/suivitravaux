@@ -1,0 +1,2 @@
+ # Ignore only the root .env file. All other files/directories must be tracked.
+.env

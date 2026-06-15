@@ -1,0 +1,9 @@
+.card-switch .form-check-input {
+        width: 3.5rem;
+        height: 1.75rem;
+        cursor: pointer;
+    }
+    .card-switch .form-check-input:checked {
+        background-color: #009A44;
+        border-color: #009A44;
+    }

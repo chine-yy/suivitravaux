@@ -1,0 +1,268 @@
+/* ====================================================
+   HEADER CSS - KAFYKA Premium Modern
+   ==================================================== */
+:root {
+    --primary-green: #009A44;
+    --primary-dark: #007a35;
+    --primary-soft: rgba(0, 154, 68, 0.1);
+    --secondary-blue: #1e293b;
+    --dark-slate: #0f172a;
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+    --glass-bg: rgba(255, 255, 255, 0.85);
+    --glass-border: rgba(255, 255, 255, 0.3);
+}
+
+/* ---------- Navbar Base ---------- */
+.navbar {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 18px 0;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: var(--glass-bg) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.navbar.navbar-scrolled {
+    padding: 12px 0;
+    background: rgba(255, 255, 255, 0.98) !important;
+    box-shadow: var(--shadow-xl);
+}
+
+/* ---------- Brand / Logo ---------- */
+.navbar-brand {
+    position: relative;
+    overflow: hidden;
+}
+
+.navbar-brand img {
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navbar-brand:hover img {
+    transform: scale(1.08) rotate(-3deg);
+}
+
+.navbar-brand .brand-text {
+    background: linear-gradient(135deg, var(--primary-green), var(--primary-dark));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+/* ---------- Navigation Links ---------- */
+.nav-link {
+    font-weight: 600;
+    color: var(--secondary-blue) !important;
+    padding: 0.6rem 1.1rem !important;
+    margin: 0 3px;
+    border-radius: 10px;
+    transition: all 0.25s ease;
+    position: relative;
+    font-size: 0.95rem;
+}
+
+.nav-link::before {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--primary-green), var(--primary-dark));
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+    opacity: 0;
+}
+
+.nav-link:hover {
+    color: var(--primary-green) !important;
+    background: var(--primary-soft);
+}
+
+.nav-link:hover::before {
+    width: 50%;
+    opacity: 1;
+}
+
+.nav-link.active {
+    color: var(--primary-green) !important;
+    background: var(--primary-soft);
+}
+
+.nav-link.active::before {
+    width: 60%;
+    opacity: 1;
+}
+
+/* ---------- Buttons ---------- */
+.btn-green {
+    background: linear-gradient(135deg, var(--primary-green), var(--primary-dark)) !important;
+    color: white !important;
+    font-weight: 700;
+    border: none !important;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 14px rgba(0, 154, 68, 0.35);
+    border-radius: 10px;
+    padding: 0.6rem 1.2rem;
+}
+
+/* Outline button - orange border, orange text, white background */
+.btn-outline-green {
+    background: white !important;
+    color: var(--primary-green) !important;
+    font-weight: 700;
+    border: 2px solid var(--primary-green) !important;
+    transition: all 0.3s ease;
+    border-radius: 10px;
+    padding: 0.5rem 1.1rem;
+}
+
+.btn-outline-green:hover {
+    background: linear-gradient(135deg, var(--primary-green), var(--primary-dark)) !important;
+    color: white !important;
+    border-color: var(--primary-green) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(0, 154, 68, 0.35);
+}
+
+.btn-green:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 154, 68, 0.45);
+    color: white;
+    background: linear-gradient(135deg, var(--primary-dark), #005a28);
+}
+
+/* Same style as btn-orange for consistency */
+.btn-outline-green,
+.btn-green-outline {
+    background: linear-gradient(135deg, var(--primary-green), var(--primary-dark));
+    color: white;
+    font-weight: 700;
+    border: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 14px rgba(0, 154, 68, 0.35);
+    border-radius: 10px;
+    padding: 0.6rem 1.2rem;
+}
+
+.btn-outline-green:hover,
+.btn-green-outline:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 154, 68, 0.45);
+    color: white;
+    background: linear-gradient(135deg, var(--primary-dark), #005a28);
+}
+
+/* ---------- Mobile Responsive ---------- */
+@media (max-width: 991px) {
+    .navbar-collapse {
+        background: white;
+        padding: 20px;
+        border-radius: 16px;
+        margin-top: 15px;
+        box-shadow: var(--shadow-xl);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .nav-link {
+        padding: 0.8rem 1rem !important;
+    }
+
+    .nav-link::before {
+        display: none;
+    }
+
+    .navbar-nav .nav-item {
+        margin-bottom: 5px;
+    }
+}
+
+/* ---------- Navbar Toggler ---------- */
+.navbar-toggler {
+    border: none;
+    padding: 0.5rem;
+    font-size: 1.25rem;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+.navbar-toggler-icon {
+    background-image: none;
+    position: relative;
+    width: 24px;
+    height: 2px;
+    background: var(--secondary-blue);
+    transition: all 0.3s ease;
+}
+
+.navbar-toggler-icon::before,
+.navbar-toggler-icon::after {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 2px;
+    background: var(--secondary-blue);
+    left: 0;
+    transition: all 0.3s ease;
+}
+
+.navbar-toggler-icon::before {
+    top: -7px;
+}
+
+.navbar-toggler-icon::after {
+    top: 7px;
+}
+
+/* ---------- Dropdown Menu (if needed) ---------- */
+.dropdown-menu {
+    border: none;
+    box-shadow: var(--shadow-xl);
+    border-radius: 12px;
+    padding: 10px;
+}
+
+.dropdown-item {
+    border-radius: 8px;
+    padding: 10px 15px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+    background: var(--primary-soft);
+    color: var(--primary-green);
+}
+
+/* ---------- Scroll Animation ---------- */
+@keyframes navbarSlideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.navbar {
+    animation: navbarSlideDown 0.6s ease-out;
+}
+
+/* ---------- Badge for notification ---------- */
+.nav-item .badge {
+    font-size: 0.65rem;
+    padding: 3px 6px;
+    position: absolute;
+    top: 2px;
+    right: 2px;
+}
+

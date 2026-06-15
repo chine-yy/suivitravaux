@@ -1,0 +1,819 @@
+================================================================================
+SCAN COMPLET DE TOUS LES FORMULAIRES DE L'APPLICATION
+================================================================================
+Date: $(date)
+Projet: Suivi Travaux CNRST
+================================================================================
+
+Ce fichier documente tous les formulaires (create/edit) de l'application
+avec leurs champs, types, classes, et boutons de soumission.
+
+================================================================================
+SOMMAIRE
+================================================================================
+1.  Super Admin - Rendez-vous (create/edit)
+2.  Super Admin - Documents (create/edit)
+3.  Super Admin - Équipes (create/edit)
+4.  Super Admin - Contrats (create/edit)
+5.  Super Admin - Projets (create/edit)
+6.  Super Admin - Interventions (create/edit)
+7.  Super Admin - Stocks (create/edit)
+8.  Super Admin - Fournisseurs (create/edit)
+9.  Super Admin - Phases (create/edit)
+10. Super Admin - Utilisateurs (create/edit)
+11. Super Admin - Rôles (create/edit)
+12. Super Admin - Partenaires (create/edit)
+13. Super Admin - Incidents (create/edit)
+14. Super Admin - Tâches (create/edit)
+15. Super Admin - Budget (create/edit)
+16. Super Admin - Factures (create/edit)
+17. Super Admin - Sous-traitances (create/edit)
+18. Super Admin - Sous-tâches (create/edit)
+19. Super Admin - Profil (update/password/photo)
+20. Role Dynamique - Contrats (create/edit)
+21. Role Dynamique - Rendez-vous (create/edit)
+22. Role Dynamique - Interventions (create/edit)
+23. Role Dynamique - Documents (create/edit)
+24. Role Dynamique - Tâches (create/edit)
+25. Role Dynamique - Équipes (create/edit)
+26. Role Dynamique - Factures (create/edit)
+27. Role Dynamique - Projets (create/edit)
+28. Role Dynamique - Stocks (create/edit)
+29. Role Dynamique - Fournisseurs (create/edit)
+30. Role Dynamique - Phases (create/edit)
+31. Role Dynamique - Utilisateurs (create/edit)
+32. Role Dynamique - Rôles (create/edit)
+33. Role Dynamique - Partenaires (create/edit)
+34. Role Dynamique - Incidents (create/edit)
+35. Role Dynamique - Rapports (create/edit/table/show)
+36. Role Dynamique - Sous-traitances (create/edit)
+37. Role Dynamique - Sous-tâches (create/edit)
+38. Partenaire - Satisfaction
+39. Partenaire - Profil
+40. Auth - Login/Register/Password
+41. Chat
+42. IA Chat
+
+================================================================================
+SECTION 1: SUPER ADMIN
+================================================================================
+
+--- 1.1 Rendez-vous Create ---
+FICHIER: resources/views/super-admin/rendezvous/create.blade.php
+<form action="{{ route('super-admin.rendezvous.store') }}" method="POST">
+@csrf
+Champs:
+  - titre (text, required)
+  - type (select: reunion, visite, appel, autre)
+  - type_autre (text, conditionnel si type=autre)
+  - date_heure (datetime-local, required)
+  - duree_minutes (number, defaut=60)
+  - lieu (text)
+  - projet_id (select)
+  - statut (select)
+  - description (textarea, rows=3)
+Submit: <button class="btn btn-primary px-4"><i class="bi bi-check2"></i>Enregistrer</button>
+
+--- 1.2 Rendez-vous Edit ---
+FICHIER: resources/views/super-admin/rendezvous/edit.blade.php
+<form action="{{ route('super-admin.rendezvous.update', $rendezvous->id) }}" method="POST">
+@csrf @method('PUT')
+Champs: identiques à create avec values pré-remplies
+Submit: identique
+
+--- 1.3 Documents Create ---
+FICHIER: resources/views/super-admin/documents/create.blade.php
+<form action="{{ route('super-admin.documents.store') }}" method="POST" enctype="multipart/form-data">
+@csrf
+Champs:
+  - nom (text, required)
+  - type (select: contrat, facture, rapport, photo, plan, autre)
+  - type_personnalise (text, conditionnel)
+  - projet_id (select)
+  - categorie (text)
+  - fichier (file)
+  - statut (select)
+  - description (textarea, rows=3)
+Submit: <button class="btn btn-primary px-4"><i class="bi bi-check2"></i>Enregistrer</button>
+
+--- 1.4 Documents Edit ---
+FICHIER: resources/views/super-admin/documents/edit.blade.php
+<form action="{{ route('super-admin.documents.update', $document->id) }}" method="POST" enctype="multipart/form-data">
+@csrf @method('PUT')
+Champs: identiques à create avec values pré-remplies
+Submit: identique
+
+--- 1.5 Équipes Create ---
+FICHIER: resources/views/super-admin/equipes/create.blade.php
+<form action="{{ route('super-admin.equipes.store') }}" method="POST">
+@csrf
+Champs:
+  - nom (text, required)
+  - projet_id (select, required)
+  - description (textarea, rows=3)
+  - chef_equipe_id (select, required)
+  - users[] (checkbox, multiple)
+Submit: <button class="btn btn-primary px-4"><i class="bi bi-check-circle"></i>Créer l'Équipe</button>
+
+--- 1.6 Équipes Edit ---
+FICHIER: resources/views/super-admin/equipes/edit.blade.php
+<form action="{{ route('super-admin.equipes.update', $equipe->id) }}" method="POST">
+@csrf @method('PUT')
+Champs: identiques + radio statut (active/inactive)
+Submit: <button class="btn btn-primary px-4"><i class="bi bi-check2"></i>Enregistrer</button>
+
+--- 1.7 Contrats Create ---
+FICHIER: resources/views/super-admin/contrats/create.blade.php
+<form action="{{ route('super-admin.contrats.store') }}" method="POST">
+@csrf
+Champs:
+  - numero_contrat (text)
+  - type (select: prestation, marche, sous_traitance, autre, required)
+  - projet_id (select, onchange updateBudgetRestantContrat)
+  - montant (number, step=0.01)
+  - statut (select)
+  - date_debut (date)
+  - date_fin (date)
+  - objet (textarea, rows=3)
+  - conditions (textarea, rows=3)
+Submit: <button class="btn btn-primary px-4"><i class="bi bi-check2"></i>Enregistrer</button>
+
+--- 1.8 Contrats Edit ---
+FICHIER: resources/views/super-admin/contrats/edit.blade.php
+<form action="{{ route('super-admin.contrats.update', $contrat->id) }}" method="POST">
+@csrf @method('PUT')
+Champs: identiques avec values pré-remplies
+Submit: identique
+
+--- 1.9 Projets Create ---
+FICHIER: resources/views/super-admin/projets/create.blade.php
+<form action="{{ route('super-admin.projets.store') }}" method="POST">
+@csrf
+Champs:
+  - nom (text, required, autofocus)
+  - statut (select, required)
+  - avancement (number, min=0 max=100)
+  - date_debut (date, required)
+  - date_fin (date, required)
+  - description (textarea, rows=4)
+Submit: <button class="btn btn-primary px-4"><i class="bi bi-check-circle"></i>Créer le projet</button>
+
+--- 1.10 Projets Edit ---
+FICHIER: resources/views/super-admin/projets/edit.blade.php
+<form action="{{ route('super-admin.projets.update', $projet->id) }}" method="POST">
+@csrf @method('PUT')
+Champs: identiques + date_fin_reelle (date)
+Submit: <button class="btn btn-primary px-4"><i class="bi bi-check-circle"></i>Mettre à jour</button>
+
+--- 1.11 Interventions Create ---
+FICHIER: resources/views/super-admin/interventions/create.blade.php
+<form action="{{ route('super-admin.interventions.store') }}" method="POST">
+@csrf
+Champs:
+  - type (select: installation, maintenance, reparation, inspection, autre, onchange toggleTypeAutre)
+  - type_autre (text, conditionnel)
+  - date_intervention (datetime-local, required)
+  - projet_id (select)
+  - mission_type (radio: tache/sous_tache)
+  - tache_id (select, conditionnel)
+  - sous_tache_id (select, conditionnel)
+  - technicien_id (select)
+  - statut (select)
+  - description (textarea, rows=3)
+Submit: <button class="btn btn-primary px-4"><i class="bi bi-check2"></i>Enregistrer</button>
+
+--- 1.12 Interventions Edit ---
+FICHIER: resources/views/super-admin/interventions/edit.blade.php
+<form action="{{ route('super-admin.interventions.update', $intervention->id) }}" method="POST">
+@csrf @method('PUT')
+Champs: identiques
+Submit: identique
+
+--- 1.13 Stocks Create ---
+FICHIER: resources/views/super-admin/stocks/create.blade.php
+<form action="{{ route('super-admin.stocks.store') }}" method="POST">
+@csrf
+Champs:
+  - nom (text, required)
+  - reference (text)
+  - categorie (text)
+  - fournisseur_id (select)
+  - quantite (number, required)
+  - prix_unitaire (number, step=0.01 min=0)
+  - emplacement (text)
+  - statut (select)
+  - description (textarea, rows=3)
+Submit: <button class="btn btn-primary px-4"><i class="bi bi-check2"></i>Enregistrer</button>
+
+--- 1.14 Stocks Edit ---
+FICHIER: resources/views/super-admin/stocks/edit.blade.php
+<form action="{{ route('super-admin.stocks.update', $stock->id) }}" method="POST">
+@csrf @method('PUT')
+Champs: identiques
+Submit: identique
+
+--- 1.15 Fournisseurs Create ---
+FICHIER: resources/views/super-admin/fournisseurs/create.blade.php
+<form action="{{ route('super-admin.fournisseurs.store') }}" method="POST">
+@csrf
+Champs:
+  - nom (text, required)
+  - email (email)
+  - telephone (text)
+  - categorie (text)
+  - adresse (textarea, rows=2)
+  - site_web (url)
+  - statut (select)
+  - contact_nom (text)
+  - contact_prenom (text)
+  - contact_telephone (text)
+  - notes (textarea, rows=3)
+Submit: <button class="btn btn-primary px-5 py-2"><i class="bi bi-check2"></i>Enregistrer</button>
+
+--- 1.16 Fournisseurs Edit ---
+FICHIER: resources/views/super-admin/fournisseurs/edit.blade.php
+<form action="{{ route('super-admin.fournisseurs.update', $fournisseur->id) }}" method="POST">
+@csrf @method('PUT')
+Champs: identiques
+Submit: identique
+
+--- 1.17 Phases Create ---
+FICHIER: resources/views/super-admin/phases/create.blade.php
+<form action="{{ route('super-admin.phases.store') }}" method="POST">
+@csrf
+Champs:
+  - projet_id (select, required)
+  - nom (text, required)
+  - date_debut (date)
+  - date_fin_prevue (date)
+  - description (textarea, rows=4)
+Submit: <button class="btn btn-primary px-5 py-2 fw-bold"><i class="bi bi-check-circle"></i>Créer la Phase</button>
+
+--- 1.18 Phases Edit ---
+FICHIER: resources/views/super-admin/phases/edit.blade.php
+<form action="{{ route('super-admin.phases.update', $phase->id) }}" method="POST">
+@csrf @method('PUT')
+Champs: identiques
+Submit: <button class="btn btn-primary px-5 py-2 fw-bold"><i class="bi bi-check-circle"></i>Mettre à jour la Phase</button>
+
+--- 1.19 Utilisateurs Create ---
+FICHIER: resources/views/super-admin/users/create.blade.php
+<form action="{{ route('super-admin.users.store') }}" method="POST" id="createUserForm">
+@csrf
+Champs:
+  - name (text, required)
+  - prenom (text, required)
+  - email (email, required)
+  - telephone (text)
+  - role_id (select, required)
+Submit: <button class="btn btn-primary px-4"><i class="bi bi-person-plus"></i>Créer l'Utilisateur</button>
+
+--- 1.20 Utilisateurs Edit ---
+FICHIER: resources/views/super-admin/users/edit.blade.php
+<form action="{{ route('super-admin.users.update', $user) }}" method="POST" enctype="multipart/form-data">
+@csrf @method('PUT')
+Champs:
+  - name (text, required)
+  - prenom (text, required)
+  - email (email, required)
+  - telephone (text)
+  - photo (file, accept=image/*)
+  - role_id (select, required)
+  - is_active (checkbox/switch, value=1)
+Submit: <button class="btn btn-primary px-4"><i class="bi bi-check2"></i>Enregistrer</button>
++ Formulaire delete dans modal:
+  <form action="{{ route('super-admin.users.destroy', $user) }}" method="POST">
+  @csrf @method('DELETE')
+  <button class="btn btn-danger">Supprimer définitivement</button>
+
+--- 1.21 Rôles Create ---
+FICHIER: resources/views/super-admin/roles/create.blade.php
+<form action="{{ route('super-admin.roles.store') }}" method="POST">
+@csrf
+Champs:
+  - nom (text, required)
+  - permissions[] (checkbox, multiples via permission-matrix)
+Submit: <button class="btn btn-primary px-4"><i class="bi bi-check-lg"></i>Créer le Rôle</button>
+Même structure dans create-compact.blade.php
+
+--- 1.22 Rôles Edit ---
+FICHIER: resources/views/super-admin/roles/edit.blade.php
+<form action="{{ route('super-admin.roles.update', $role) }}" method="POST">
+@csrf @method('PUT')
+Champs: identiques (nom readonly si Admin)
+Submit: <button class="btn btn-primary px-4"><i class="bi bi-check-lg"></i>Enregistrer</button>
+
+--- 1.23 Partenaires Create ---
+FICHIER: resources/views/super-admin/partenaires/create.blade.php
+<form action="{{ route('super-admin.partenaires.store') }}" method="POST">
+@csrf
+Champs:
+  - projet_id (select, required)
+  - nom[] (text, required, multiple)
+  - prenom[] (text, required, multiple)
+  - email[] (email, required, multiple)
+  - telephone[] (text, multiple)
+Submit: <button class="btn btn-primary px-5 py-2 fw-bold"><i class="bi bi-check-circle"></i>Inscrire les Partenaires</button>
+
+--- 1.24 Partenaires Edit ---
+FICHIER: resources/views/super-admin/partenaires/edit.blade.php
+<form action="{{ route('super-admin.partenaires.update', $partenaire) }}" method="POST">
+@csrf @method('PUT')
+Champs: name, prenom, email, telephone, projet_id
+Submit: <button class="btn btn-primary px-4"><i class="bi bi-check-circle"></i>Mettre à jour</button>
+
+--- 1.25 Incidents Create ---
+FICHIER: resources/views/super-admin/incidents/create.blade.php
+<form action="{{ route('super-admin.incidents.store') }}" method="POST">
+@csrf
+Champs:
+  - projet_id (select, required)
+  - titre (text, required)
+  - gravite (radio: faible, moyen, critique)
+  - description (textarea, rows=5, required)
+Submit: <button class="btn btn-green btn-with-border px-5 py-2"><i class="bi bi-check-circle"></i>Enregistrer l'Incident</button>
+
+--- 1.26 Incidents Edit ---
+FICHIER: resources/views/super-admin/incidents/edit.blade.php
+<form action="{{ route('super-admin.incidents.update', $incident->id) }}" method="POST">
+@csrf @method('PUT')
+Champs: identiques + statut (select)
+Submit: <button class="btn btn-green btn-with-border px-5 py-2"><i class="bi bi-check-circle"></i>Mettre à jour l'Incident</button>
+
+--- 1.27 Tâches Create ---
+FICHIER: resources/views/super-admin/taches/create.blade.php
+<form action="{{ route('super-admin.taches.store') }}" method="POST">
+@csrf
+Champs:
+  - nom_tache (text, required)
+  - projet_id (select, required)
+  - phase_id (select)
+  - date_debut (date, required)
+  - date_fin (date, required)
+  - description (textarea, rows=4)
+  - has_assigned (checkbox, value=1)
+  - user_id (select, disabled par défaut)
+Submit: <button class="btn btn-primary px-4"><i class="bi bi-check-circle"></i>Créer la Tâche</button>
++ Modal form: <form id="form-new-phase"> (AJAX, champ: projet_id hidden, nom, date_debut, date_fin_prevue)
+
+--- 1.28 Tâches Edit ---
+FICHIER: resources/views/super-admin/taches/edit.blade.php
+<form action="{{ route('super-admin.taches.update', $tache->id) }}" method="POST">
+@csrf @method('PUT')
+Champs: identiques + statut (select)
+Submit: <button class="btn btn-primary px-4"><i class="bi bi-check-circle"></i>Mettre à jour</button>
++ Même modal form-new-phase
+
+--- 1.29 Budget Create ---
+FICHIER: resources/views/super-admin/budget/create.blade.php
+<form action="{{ route('super-admin.budget.store') }}" method="POST">
+@csrf
+Champs:
+  - annee (hidden)
+  - budget_total (number, step=0.01, required)
+  - description (textarea, rows=4)
+Submit: <button class="btn btn-primary px-4"><i class="bi bi-check-circle"></i>Enregistrer le Budget</button>
+
+--- 1.30 Budget Edit ---
+FICHIER: resources/views/super-admin/budget/edit.blade.php
+<form action="{{ route('super-admin.budget.update', $budget->id) }}" method="POST">
+@csrf @method('PUT')
+Champs: budget_total, description (pas de hidden annee)
+Submit: <button class="btn btn-primary px-4"><i class="bi bi-check-circle"></i>Mettre à jour</button>
+
+--- 1.31 Factures Create ---
+FICHIER: resources/views/super-admin/factures/create.blade.php
+<form action="{{ route('super-admin.factures.store') }}" method="POST">
+@csrf
+Champs:
+  - numero_facture (text)
+  - type (select, required)
+  - projet_id (select, onchange updateBudgetRestantFacture)
+  - montant_ht (number, step=0.01)
+  - montant_tva (number, step=0.01)
+  - montant_ttc (number, step=0.01)
+  - date_emission (date)
+  - date_echeance (date)
+  - statut_paiement (select)
+  - mode_paiement (select)
+  - notes (textarea, rows=3)
+Submit: <button class="btn btn-primary px-4"><i class="bi bi-check2"></i>Enregistrer</button>
+
+--- 1.32 Factures Edit ---
+FICHIER: resources/views/super-admin/factures/edit.blade.php
+<form action="{{ route('super-admin.factures.update', $facture->id) }}" method="POST">
+@csrf @method('PUT')
+Champs: identiques
+Submit: identique
+
+--- 1.33 Sous-traitances Create ---
+FICHIER: resources/views/super-admin/sous-traitances/create.blade.php
+<form action="{{ route('super-admin.sous-traitances.store') }}" method="POST">
+@csrf
+Champs:
+  - projet_id (select, required)
+  - nom_entreprise (text, required)
+  - nombre_employes (number, min=1, required)
+  - description_tache (textarea, rows=3)
+  - contact_nom (text)
+  - contact_prenom (text)
+  - contact_telephone (text)
+  - contact_email (email)
+  - date_debut (date)
+  - date_fin (date)
+  - statut (select)
+  - notes (textarea, rows=2)
+Submit: <button class="btn btn-primary px-4"><i class="bi bi-check2"></i>Enregistrer</button>
+
+--- 1.34 Sous-traitances Edit ---
+FICHIER: resources/views/super-admin/sous-traitances/edit.blade.php
+<form action="{{ route('super-admin.sous-traitances.update', $sousTraitance->id) }}" method="POST">
+@csrf @method('PUT')
+Champs: identiques
+Submit: identique
+
+--- 1.35 Sous-tâches Create ---
+FICHIER: resources/views/super-admin/sous-taches/create.blade.php
+<form action="{{ route('super-admin.sous-taches.store') }}" method="POST">
+@csrf
+Champs:
+  - titre (text, required)
+  - tache_id (select, required)
+  - phase_id (select)
+  - date_debut (date)
+  - date_fin_prevue (date)
+  - user_id (select)
+  - description (textarea, rows=5)
+Submit: <button class="btn btn-primary px-4"><i class="bi bi-check2"></i>Enregistrer</button>
++ Modal form-new-phase
+
+--- 1.36 Sous-tâches Edit ---
+FICHIER: resources/views/super-admin/sous-taches/edit.blade.php
+<form action="{{ route('super-admin.sous-taches.update', $sousTache->id) }}" method="POST">
+@csrf @method('PUT')
+Champs: identiques + statut (select) + avancement (number, min=0 max=100)
+Submit: identique
+
+--- 1.37 Profil Super Admin ---
+FICHIER: resources/views/super-admin/profil/edit.blade.php
+<form action="{{ route('partenaire.parametres.update') }}" method="POST" enctype="multipart/form-data">
+@csrf @method('PUT')
+Champs: nom, prenom, email, telephone, photo
+Submit: <button class="btn btn-primary">Enregistrer les changements</button>
+
+FICHIER: resources/views/super-admin/profil/index.blade.php (3 formulaires)
+
+FORM 1 - Infos personnelles:
+<form action="{{ route('super-admin.parametres.update') }}" enctype="multipart/form-data">
+@csrf @method('PUT')
+Champs: name, prenom, email, telephone, photo (file), is_active (select)
+Submit: <button class="btn btn-primary px-4"><i class="bi bi-check2"></i>Enregistrer</button>
+
+FORM 2 - Mot de passe:
+<form action="{{ route('super-admin.parametres.update') }}" enctype="multipart/form-data">
+@csrf @method('PUT')
+Hidden: name, email
+Champs: password, password_confirmation
+Submit: <button class="btn btn-warning px-4"><i class="bi bi-lock"></i>Mettre à jour le mot de passe</button>
+
+FORM 3 - Supprimer photo:
+<form action="{{ route('super-admin.parametres.photo.destroy') }}">
+@csrf @method('DELETE')
+Submit: <button class="btn btn-sm px-3" style="background:#009A44;">Supprimer photo</button>
+
+--- 1.38 Assign Permissions ---
+FICHIER: resources/views/super-admin/users/assign-permissions.blade.php
+<form action="{{ route('super-admin.users.permissions.update', $user->id) }}" method="POST">
+@csrf
+Champs: permissions[] (checkbox, multiples)
+Submit: <button class="btn btn-primary"><i class="bi bi-check-lg"></i>Enregistrer</button>
+
+================================================================================
+SECTION 2: ROLE DYNAMIQUE
+================================================================================
+
+--- 2.1 Contrats Create ---
+FICHIER: resources/views/role-dynamique/contrats/create.blade.php
+<form action="{{ route('role-dynamique.contrats.store') }}" method="POST">
+@csrf
+Champs: numero_contrat (text), type (select), projet_id (select, onchange updateBudget), montant (number, step=0.01), statut (select), date_debut (date), date_fin (date), objet (textarea), conditions (textarea)
+Submit: <button class="btn btn-primary px-4"><i class="bi bi-check2"></i>Enregistrer</button>
+
+--- 2.2 Contrats Edit ---
+FICHIER: resources/views/role-dynamique/contrats/edit.blade.php
+@csrf @method('PUT')
+Champs: identiques
+
+--- 2.3 Rendez-vous Create ---
+FICHIER: resources/views/role-dynamique/rendezvous/create.blade.php
+<form action="{{ route('role-dynamique.rendezvous.store') }}" method="POST">@csrf
+Champs: titre, type (select), type_autre, date_heure (datetime-local), duree_minutes (number), lieu, projet_id, statut, description (textarea)
+Submit: <button class="btn btn-primary px-4"><i class="bi bi-check2"></i>Enregistrer</button>
+
+--- 2.4 Rendez-vous Edit ---
+@csrf @method('PUT')
+Champs: identiques
+
+--- 2.5 Interventions Create ---
+FICHIER: resources/views/role-dynamique/interventions/create.blade.php
+<form action="{{ route('role-dynamique.interventions.store') }}" method="POST">@csrf
+Champs: type (select, onchange toggleTypeAutre), type_autre, date_intervention (datetime-local), projet_id, mission_type (radio: tache/sous_tache), tache_id, sous_tache_id, technicien_id, statut (select), description (textarea)
+Submit: <button class="btn btn-primary px-4"><i class="bi bi-check2"></i>Enregistrer</button>
+
+--- 2.6 Interventions Edit ---
+@csrf @method('PUT')
+Champs: identiques
+
+--- 2.7 Documents Create ---
+FICHIER: resources/views/role-dynamique/documents/create.blade.php
+<form action="{{ route('role-dynamique.documents.store') }}" method="POST" enctype="multipart/form-data">@csrf
+Champs: nom, type (select), type_personnalise, projet_id, categorie, fichier (file), statut (select), description (textarea)
+Submit: identique
+
+--- 2.8 Documents Edit ---
+@csrf @method('PUT')
+Champs: identiques
+
+--- 2.9 Tâches Create ---
+FICHIER: resources/views/role-dynamique/taches/create.blade.php
+<form action="{{ route('role-dynamique.taches.store') }}" method="POST">@csrf
+Champs: nom_tache, projet_id, phase_id, date_debut, date_fin, description (textarea), has_assigned (checkbox), user_id (select, disabled)
+Submit: <button class="btn btn-primary px-4"><i class="bi bi-check-circle"></i>Créer la Tâche</button>
++ Modal: <form id="form-new-phase"> hidden projet_id, nom, date_debut, date_fin_prevue
+
+--- 2.10 Tâches Edit ---
+@csrf @method('PUT')
+Champs: identiques + statut (select)
+
+--- 2.11 Équipes Create ---
+FICHIER: resources/views/role-dynamique/equipes/create.blade.php
+<form action="{{ route('role-dynamique.equipes.store') }}" method="POST">@csrf
+Champs: nom, projet_id, description, chef_equipe_id, users[] (checkbox)
+Submit: <button class="btn btn-primary px-4"><i class="bi bi-check-circle"></i>Créer l'Équipe</button>
+
+--- 2.12 Équipes Edit ---
+@csrf @method('PUT')
+Champs: identiques + radio statut (active/inactive)
+
+--- 2.13 Factures Create ---
+FICHIER: resources/views/role-dynamique/factures/create.blade.php
+<form action="{{ route('role-dynamique.factures.store') }}" method="POST">@csrf
+Champs: numero_facture, type (select), projet_id (onchange), montant_ht, montant_tva, montant_ttc, date_emission, date_echeance, statut_paiement (select), mode_paiement (select), notes (textarea)
+Submit: <button class="btn btn-primary px-4"><i class="bi bi-check2"></i>Enregistrer</button>
+
+--- 2.14 Factures Edit ---
+@csrf @method('PUT')
+Champs: identiques
+
+--- 2.15 Projets Create ---
+FICHIER: resources/views/role-dynamique/projets/create.blade.php
+<form action="{{ route('role-dynamique.projets.store') }}" method="POST">@csrf
+Champs: nom, statut (select), avancement (number, min=0 max=100), date_debut, date_fin, description (textarea)
+Submit: <button class="btn btn-primary px-4"><i class="bi bi-check-circle"></i>Créer le projet</button>
+
+--- 2.16 Projets Edit ---
+@csrf @method('PUT')
+Champs: identiques + date_fin_reelle
+
+--- 2.17 Stocks Create ---
+FICHIER: resources/views/role-dynamique/stocks/create.blade.php
+<form action="{{ route('role-dynamique.stocks.store') }}" method="POST">@csrf
+Champs: nom, reference, categorie, fournisseur_id, quantite, prix_unitaire, emplacement, statut (select), description (textarea)
+Submit: <button class="btn btn-primary px-4"><i class="bi bi-check2"></i>Enregistrer</button>
+
+--- 2.18 Stocks Edit ---
+@csrf @method('PUT')
+Champs: identiques
+
+--- 2.19 Fournisseurs Create ---
+FICHIER: resources/views/role-dynamique/fournisseurs/create.blade.php
+<form action="{{ route('role-dynamique.fournisseurs.store') }}" method="POST">@csrf
+Champs: nom, email, telephone, categorie, adresse, site_web, statut, contact_nom, contact_prenom, contact_telephone, notes
+Submit: <button class="btn btn-primary px-5 py-2"><i class="bi bi-check2"></i>Enregistrer</button>
+
+--- 2.20 Fournisseurs Edit ---
+@csrf @method('PUT')
+Champs: identiques
+
+--- 2.21 Phases Create ---
+FICHIER: resources/views/role-dynamique/phases/create.blade.php
+<form action="{{ route('role-dynamique.phases.store') }}" method="POST">@csrf
+Champs: projet_id, nom, date_debut, date_fin_prevue, description
+Submit: <button class="btn btn-primary px-5 py-2 fw-bold"><i class="bi bi-check-circle"></i>Créer la Phase</button>
+
+--- 2.22 Phases Edit ---
+@csrf @method('PUT')
+Champs: identiques
+Submit: <button class="btn btn-primary px-5 py-2 fw-bold"><i class="bi bi-check-circle"></i>Mettre à jour la Phase</button>
+
+--- 2.23 Utilisateurs Create ---
+FICHIER: resources/views/role-dynamique/users/create.blade.php
+<form action="{{ route('role-dynamique.users.store') }}" method="POST" id="createUserForm">@csrf
+Champs: name, prenom, email, telephone, role_id (select)
+Submit: <button class="btn btn-primary px-4"><i class="bi bi-person-plus"></i>Créer l'Utilisateur</button>
+
+--- 2.24 Utilisateurs Edit ---
+FICHIER: resources/views/role-dynamique/users/edit.blade.php
+<form action="{{ route('role-dynamique.users.update', $user) }}" method="POST" enctype="multipart/form-data">
+@csrf @method('PUT')
+Champs: name, prenom, email, telephone, photo (file), role_id, is_active (switch)
+Submit: <button class="btn btn-primary px-4"><i class="bi bi-check2"></i>Enregistrer</button>
++ Formulaire delete: @csrf @method('DELETE') <button class="btn btn-danger">Supprimer définitivement</button>
+
+--- 2.25 Assign Permissions ---
+FICHIER: resources/views/role-dynamique/users/assign-permissions.blade.php
+<form action="{{ route('role-dynamique.admins.permissions.update', $admin->id) }}" method="POST">@csrf
+Champs: permissions[] (checkbox)
+Submit: <button class="btn btn-primary"><i class="bi bi-check-lg"></i>Enregistrer les modifications</button>
+
+--- 2.26 Rôles Create ---
+FICHIER: resources/views/role-dynamique/roles/create.blade.php
+<form action="{{ route('role-dynamique.roles.store') }}" method="POST">@csrf
+Champs: nom, permissions[] (checkbox)
+Submit: <button class="btn btn-primary px-4"><i class="bi bi-check-lg"></i>Créer le Rôle</button>
+
+--- 2.27 Rôles Edit ---
+@csrf @method('PUT')
+Champs: identiques
+
+--- 2.28 Partenaires Create ---
+FICHIER: resources/views/role-dynamique/partenaires/create.blade.php
+<form action="{{ route('role-dynamique.partenaires.store') }}" method="POST">@csrf
+Champs: projet_id, nom[], prenom[], email[], telephone[] (tableau pour multiple)
+Submit: <button class="btn btn-primary px-5 py-2 fw-bold"><i class="bi bi-check-circle"></i>Inscrire les Partenaires</button>
+
+--- 2.29 Partenaires Edit ---
+@csrf @method('PUT')
+Champs: name, prenom, email, telephone, projet_id
+
+--- 2.30 Incidents Create ---
+FICHIER: resources/views/role-dynamique/incidents/create.blade.php
+<form action="{{ route('role-dynamique.incidents.store') }}" method="POST">@csrf
+Champs: projet_id, titre, gravite (radio: faible/moyen/critique), description (textarea)
+Submit: <button class="btn btn-green btn-with-border px-5 py-2"><i class="bi bi-check-circle"></i>Enregistrer l'Incident</button>
+
+--- 2.31 Incidents Edit ---
+@csrf @method('PUT')
+Champs: identiques + statut (select)
+
+--- 2.32 Rapports Create ---
+FICHIER: resources/views/role-dynamique/rapports/create.blade.php
+<form action="{{ route('role-dynamique.rapports.store') }}" method="POST">@csrf
+Champs: projet_id (select), type (select: journalier/hebdomadaire/mensuel/incident/fin_tache/sous_tache), titre (text), contenu (textarea, rows=6), statut (hidden= soumis)
+Submit: 2 boutons:
+  - <button type="submit" name="statut" value="brouillon"><i class="bi bi-save"></i>Brouillon</button>
+  - <button type="submit" class="btn btn-green"><i class="bi bi-send-fill"></i>Envoyer le rapport</button>
+
+--- 2.33 Rapports Edit ---
+FICHIER: resources/views/role-dynamique/rapports/edit.blade.php
+<form action="{{ route('role-dynamique.rapports.update', $rapport->id) }}" method="POST">
+@csrf @method('PUT')
+Champs: projet_id, type, titre, contenu, statut (select)
+Submit: <button class="btn btn-green"><i class="bi bi-check-circle"></i>Enregistrer les modifications</button>
++ Modal statut-only: @csrf @method('PUT') select statut
+
+--- 2.34 Rapports Table (_table.blade.php) ---
+<form action="{{ route('role-dynamique.rapports.destroy', $rapport->id) }}" method="POST" class="d-inline">
+@csrf @method('DELETE') <button class="btn btn-sm btn-icon btn-outline-danger" title="Supprimer"><i class="bi bi-trash"></i></button>
+
+<form action="{{ route('role-dynamique.rapports.envoyer-partenaire', $rapport->id) }}" method="POST" class="d-inline">
+@csrf <button class="btn btn-sm btn-icon btn-outline-success" title="Envoyer"><i class="bi bi-send"></i></button>
+
+<form action="{{ route('role-dynamique.rapports.index') }}" method="GET" class="d-inline">
+<select name="statut" id="statut_{{ $rapport->id }}" class="form-select" required>
+<button type="submit" class="btn btn-green"><i class="bi bi-check-circle"></i>Enregistrer le statut</button>
+
+--- 2.35 Rapports Show ---
+FICHIER: resources/views/role-dynamique/rapports/show.blade.php
+<form action="{{ route('role-dynamique.rapports.update-statut', $rapport->id) }}" method="POST">
+@csrf @method('PUT')
+<select name="statut"> options: en_attente, valide, rejete
+<button class="btn btn-primary w-100"><i class="bi bi-check-lg"></i>Enregistrer le statut</button>
+
+--- 2.36 Sous-traitances Create ---
+FICHIER: resources/views/role-dynamique/sous-traitances/create.blade.php
+<form action="{{ route('role-dynamique.sous-traitances.store') }}" method="POST">@csrf
+Champs: projet_id, nom_entreprise, nombre_employes, description_tache, contact_nom, contact_prenom, contact_telephone, contact_email, date_debut, date_fin, statut, notes
+Submit: identique
+
+--- 2.37 Sous-traitances Edit ---
+@csrf @method('PUT')
+Champs: identiques
+
+--- 2.38 Sous-tâches Create ---
+FICHIER: resources/views/role-dynamique/sous-taches/create.blade.php
+<form action="{{ route('role-dynamique.sous-taches.store') }}" method="POST">@csrf
+Champs: titre, tache_id, phase_id, date_debut, date_fin_prevue, user_id, description
+Submit: identique
+
+--- 2.39 Sous-tâches Edit ---
+@csrf @method('PUT')
+Champs: identiques + statut + avancement
+
+================================================================================
+SECTION 3: PARTENAIRE
+================================================================================
+
+--- 3.1 Satisfaction (dashboard) ---
+FICHIER: resources/views/partenaire/dashboard.blade.php (3 formulaires)
+
+FORM 1 - Supprimer satisfaction:
+<form action="{{ route('partenaire.satisfaction.destroy', $existingSatisfaction->id) }}" method="POST" onsubmit="return confirm(...)">
+@csrf @method('DELETE')
+<button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i> Supprimer</button>
+
+FORM 2 - Modifier satisfaction (modal):
+<form action="{{ route('partenaire.satisfaction.update', $existingSatisfaction->id) }}" method="POST">
+@csrf @method('PUT')
+Champs: note (hidden), commentaire (textarea)
+<button class="btn btn-primary px-4"><i class="bi bi-check2"></i> Enregistrer</button>
+
+FORM 3 - Créer satisfaction:
+<form action="{{ route('partenaire.satisfaction.store') }}" method="POST">@csrf
+Champs: note (radio 1-5, d-none), commentaire (textarea)
+<button class="btn btn-primary fw-bold">Envoyer</button>
+
+--- 3.2 Profil Partenaire ---
+FICHIER: resources/views/partenaire/profil/index.blade.php (3 formulaires)
+
+FORM 1 - Infos personnelles:
+<form action="{{ route('partenaire.parametres.update') }}" method="POST" enctype="multipart/form-data" id="profileForm">
+@csrf @method('PUT')
+Champs: name (text), prenom (text), email (email), telephone (tel), photo (file)
+<button class="btn btn-primary px-4"><i class="bi bi-check2"></i>Enregistrer</button>
+
+FORM 2 - Mot de passe:
+<form action="{{ route('partenaire.parametres.update') }}" enctype="multipart/form-data">
+@csrf @method('PUT')
+Hidden: name, prenom, email, telephone
+Champs: password, password_confirmation
+<button class="btn btn-warning px-4"><i class="bi bi-lock"></i>Mettre à jour le mot de passe</button>
+
+FORM 3 - Supprimer photo:
+<form action="{{ route('partenaire.parametres.photo.destroy') }}" method="POST" onsubmit="return confirm(...)">
+@csrf @method('DELETE')
+<button class="btn btn-outline-danger btn-sm"><i class="bi bi-trash"></i>Supprimer la photo</button>
+
+================================================================================
+SECTION 4: AUTH
+================================================================================
+
+--- 4.1 Login ---
+FICHIER: resources/views/auth/login.blade.php
+<form method="POST" action="{{ route('login') }}" class="needs-validation" novalidate id="loginForm">
+@csrf
+Champs: email (email), password (password), remember (checkbox)
+<button class="btn btn-primary w-100"><i class="bi bi-box-arrow-in-right"></i>Se connecter</button>
+
+--- 4.2 Register ---
+FICHIER: resources/views/auth/register.blade.php
+<form method="POST" action="{{ route('register') }}" class="needs-validation" novalidate id="registerForm" enctype="multipart/form-data">
+@csrf
+Champs: hidden name, company_name, industry (select), custom_industry, siret, company_phone, ville, pays, site_web, company_address, description (textarea), first_name, last_name, email, phone, password, password_confirmation, photo (file), accept_terms (checkbox)
+<button class="btn btn-primary w-100 btn-lg"><i class="bi bi-building"></i>Créer mon compte entreprise</button>
+
+--- 4.3 Password Request (OTP) ---
+FICHIER: resources/views/auth/password-request.blade.php
+<form method="POST" action="{{ route('password.send-otp') }}" class="needs-validation" novalidate id="forgotForm">
+@csrf
+Champs: role (select), email (email)
+<button class="btn btn-primary w-100"><i class="bi bi-send-fill"></i>Envoyer le code OTP</button>
+
+--- 4.4 Password Verify OTP ---
+FICHIER: resources/views/auth/password-verify.blade.php
+<form method="POST" action="{{ route('password.verify-otp.submit') }}" id="otpForm">
+@csrf
+Hidden: email, role, otp
+6 inputs text individuels (maxlength=1) pour les chiffres OTP
+<button class="btn btn-primary w-100"><i class="bi bi-check-circle"></i>Vérifier le code</button>
+
+--- 4.5 Password Reset ---
+FICHIER: resources/views/auth/password-reset.blade.php
+<form method="POST" action="{{ route('password.update') }}" class="needs-validation" novalidate id="resetForm">
+@csrf
+Hidden: email, role, token
+Champs: password, password_confirmation
+<button class="btn btn-primary w-100"><i class="bi bi-check-lg"></i>Réinitialiser le mot de passe</button>
+
+================================================================================
+SECTION 5: CHAT / IA
+================================================================================
+
+--- 5.1 Chat ---
+FICHIER: resources/views/chat/index.blade.php
+<form action="{{ route($baseRoute . '.store') }}" method="POST" enctype="multipart/form-data" id="chatForm">
+@csrf
+Hidden: receiver_id, receiver_type
+Champs: image (file, d-none), audio (file, d-none), message (text)
+<button class="btn bg-gradient-green text-white rounded-circle shadow-sm"><i class="bi bi-send-fill"></i></button>
+
+--- 5.2 IA Chat ---
+FICHIER: resources/views/ia-chat/index.blade.php
+<form id="iaChatForm" enctype="multipart/form-data"> (pas d'action, soumis par fetch JS)
+@csrf
+Champs: image (file, d-none), message (textarea)
+<button class="send-btn"><i class="bi bi-send"></i> Envoyer</button>
+
+================================================================================
+FIN DU SCAN
+================================================================================

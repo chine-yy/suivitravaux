@@ -1,0 +1,4 @@
+*
+!public/
+!.gitignore
+ # No ignores here — keep files tracked. Root .gitignore handles .env only.

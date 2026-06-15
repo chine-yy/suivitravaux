@@ -1,0 +1,164 @@
+.chat-main-container {
+        height: calc(100vh - 120px);
+        min-height: 500px;
+        position: relative;
+        overflow: hidden; /* Prevent row itself from scrolling */
+    }
+
+    .col-md-8, .col-md-4 {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Desktop Message Area Scroll Fix */
+    #messageContainer {
+        flex: 1;
+        overflow-y: auto !important;
+        display: flex;
+        flex-direction: column;
+        background-attachment: fixed;
+    }
+
+@media (max-width: 767.98px) {
+        .chat-main-container {
+            height: calc(100vh - 70px);
+            border-radius: 0 !important;
+            margin: 0;
+        }
+
+        .chat-main-container .chat-contact-pane,
+        .chat-main-container .chat-conversation-pane {
+            width: 100% !important;
+            max-width: 100% !important;
+            flex: 0 0 100% !important;
+        }
+
+        .chat-main-container .chat-contact-pane {
+            display: flex !important;
+        }
+
+        .chat-main-container .chat-conversation-pane {
+            display: none !important;
+        }
+
+        .chat-main-container.chat-mobile-open .chat-contact-pane {
+            display: none !important;
+        }
+
+        .chat-main-container.chat-mobile-open .chat-conversation-pane {
+            display: flex !important;
+        }
+
+        .chat-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        #messageContainer {
+            height: calc(100vh - 160px);
+            margin-bottom: 70px; /* Space for fixed footer */
+        }
+    }
+
+    .chat-footer {
+        z-index: 10;
+        background: #f8f9fa;
+        border-top: 1px solid #dee2e6;
+    }
+
+    .chat-back-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 34px;
+        height: 34px;
+        border-radius: 999px;
+        border: 1px solid #e5e7eb;
+        color: #334155;
+        text-decoration: none;
+        background: #fff;
+    }
+
+    .bg-gradient-green {
+        background: linear-gradient(135deg, #009A44 0%, #007a35 100%);
+    }
+
+    .recording-dot {
+        width: 12px;
+        height: 12px;
+        background-color: #ff4444;
+        border-radius: 50%;
+        animation: pulse-red 1.5s infinite;
+    }
+
+    @keyframes pulse-red {
+        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 68, 68, 0.7); }
+        70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(255, 68, 68, 0); }
+        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 68, 68, 0); }
+    }
+
+    .active-contact {
+        background-color: #f0f2f5 !important;
+        border-right: 4px solid #009A44 !important;
+    }
+
+    .contact-item {
+        transition: all 0.2s ease;
+    }
+
+    .contact-item:hover {
+        background-color: #f5f6f6;
+    }
+
+    .message-bubble {
+        padding: 10px 15px;
+        border-radius: 12px;
+        max-width: 65%;
+        position: relative;
+        font-size: 0.95rem;
+    }
+
+    .bubble-me {
+        background-color: #dcf8c6;
+        color: #303030;
+        border-top-right-radius: 2px;
+    }
+
+    .bubble-them {
+        background-color: #ffffff;
+        color: #303030;
+        border-top-left-radius: 2px;
+    }
+
+    .message-time {
+        font-size: 0.7rem;
+        color: #888;
+        margin-top: 2px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: rgba(0,0,0,0.1);
+        border-radius: 10px;
+    }
+
+    .message-audio::-webkit-media-controls-enclosure {
+        background-color: transparent;
+    }
+
+    .message-img {
+        transition: transform 0.2s;
+    }
+    .message-img:hover {
+        transform: scale(1.02);
+    }

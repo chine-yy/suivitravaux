@@ -1,0 +1,173 @@
+/* -------------------------------------------------------------------------- */
+/*                               PROJETS CSS BASE                             */
+/* -------------------------------------------------------------------------- */
+
+/* Stats KPI Cards */
+.projet-stat-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(0,0,0,0.05);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.projet-stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.projet-stat-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.projet-stat-content {
+    flex-grow: 1;
+}
+
+.projet-stat-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #1f2937;
+    line-height: 1.2;
+}
+
+.projet-stat-label {
+    font-size: 0.875rem;
+    color: #6b7280;
+    font-weight: 500;
+    margin-top: 0.25rem;
+}
+
+/* Gradients for icons */
+.icon-gradient-green { background: linear-gradient(135deg, #009A44, #007a35); }
+.icon-gradient-blue { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+.icon-gradient-green { background: linear-gradient(135deg, #009A44, #007a35); }
+.icon-gradient-red { background: linear-gradient(135deg, #ef4444, #dc2626); }
+
+
+/* Modern Table Overrides */
+.table-modern {
+    border-spacing: 0 0.5rem;
+    border-collapse: separate;
+}
+
+.table-modern thead th {
+    background: transparent;
+    border: none;
+    color: #6b7280;
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 1rem 1.5rem;
+}
+
+.table-modern tbody tr {
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.table-modern tbody tr:hover {
+    box-shadow: 0 4px 6px rgba(0,0,0,0.04);
+    transform: translateY(-1px);
+}
+
+.table-modern tbody td {
+    padding: 1.25rem 1.5rem;
+    border: none;
+    vertical-align: middle;
+}
+
+.table-modern tbody td:first-child {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.table-modern tbody td:last-child {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+/* Forms & Cards */
+.form-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+    overflow: hidden;
+}
+
+.form-header-gradient {
+    background: linear-gradient(to right, #e8f5e9, #c8e6c9);
+    border-bottom: 1px solid #a5d6a7;
+    padding: 1.5rem;
+}
+
+.form-header-title {
+    color: #005a28;
+    font-weight: 700;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-section-title {
+    font-size: 1.1rem;
+    color: #374151;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #81c784;
+    display: inline-block;
+}
+
+/* Custom Inputs */
+.form-control-custom {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    transition: all 0.2s;
+    background-color: #f9fafb;
+}
+
+.form-control-custom:focus {
+    background-color: #fff;
+    border-color: #009A44;
+    box-shadow: 0 0 0 4px rgba(0, 154, 68, 0.1);
+}
+
+.form-label-custom {
+    font-weight: 600;
+    color: #4b5563;
+    margin-bottom: 0.5rem;
+}
+
+.btn-icon-circle {
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+
+/* specific status badges */
+.badge-status-en-attente { background-color: #f3f4f6; color: #4b5563; border: 1px solid #e5e7eb; }
+.badge-status-en-cours { background-color: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+.badge-status-termine { background-color: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
+.badge-status-en-retard { background-color: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }

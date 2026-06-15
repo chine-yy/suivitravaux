@@ -1,0 +1,269 @@
+/* 
+ * KAFYKA Global Theme Override
+ * Overrides Bootstrap primary, danger, info, and success classes to shades of orange.
+ */
+
+:root {
+    /* Main Orange Theme Variables (Synchronized with Accueil) */
+    --cp-green-main: #009A44;
+    --cp-green-dark: #007a35;
+    --cp-green-light: #e8f5e9;
+    /* Very light orange for backgrounds */
+    --cp-green-darker: #005a28;
+    --cp-green-border: #81c784;
+}
+
+.btn-green {
+    background-color: var(--cp-green-main) !important;
+    border-color: var(--cp-green-main) !important;
+    color: #ffffff !important;
+}
+
+.btn-green:hover {
+    background-color: var(--cp-green-dark) !important;
+    border-color: var(--cp-green-dark) !important;
+    color: #ffffff !important;
+}
+
+/* ========================================================================
+   PRIMARY (Blue to Orange)
+   ======================================================================== */
+.btn-primary,
+.bg-primary {
+    background-color: var(--cp-green-main) !important;
+    border-color: var(--cp-green-main) !important;
+    color: #fff !important;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+    background-color: var(--cp-green-dark) !important;
+    border-color: var(--cp-green-dark) !important;
+}
+
+.text-primary {
+    color: var(--cp-green-main) !important;
+}
+
+.border-primary {
+    border-color: var(--cp-green-main) !important;
+}
+
+.btn-outline-primary {
+    color: var(--cp-green-main) !important;
+    border-color: var(--cp-green-main) !important;
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--cp-green-main) !important;
+    color: #fff !important;
+}
+
+.bg-primary.bg-opacity-10,
+.bg-primary-subtle {
+    background-color: var(--cp-green-light) !important;
+}
+
+/* ========================================================================
+   DANGER (Red to Orange)
+   ======================================================================== */
+.btn-danger,
+.bg-danger {
+    background-color: #4ade80 !important;
+    /* Slightly lighter orange to differentiate */
+    border-color: #4ade80 !important;
+    color: #fff !important;
+}
+
+.btn-danger:hover,
+.btn-danger:focus,
+.btn-danger:active {
+    background-color: var(--cp-green-main) !important;
+    border-color: var(--cp-green-main) !important;
+}
+
+.text-danger {
+    color: #009A44 !important;
+    /* Standout orange */
+}
+
+.border-danger {
+    border-color: #4ade80 !important;
+}
+
+.btn-outline-danger {
+    color: #009A44 !important;
+    border-color: #009A44 !important;
+}
+
+.btn-outline-danger:hover {
+    background-color: #009A44 !important;
+    color: #fff !important;
+}
+
+.bg-danger.bg-opacity-10,
+.bg-danger-subtle {
+    background-color: #e8f5e9 !important;
+}
+
+/* ========================================================================
+   INFO (Light Blue to Orange)
+   ======================================================================== */
+.btn-info,
+.bg-info {
+    background-color: #81c784 !important;
+    border-color: #81c784 !important;
+    color: #000 !important;
+    /* Keep text dark for contrast */
+}
+
+.btn-info:hover,
+.btn-info:focus,
+.btn-info:active {
+    background-color: #4ade80 !important;
+    border-color: #4ade80 !important;
+    color: #fff !important;
+}
+
+.text-info {
+    color: #007a35 !important;
+}
+
+.border-info {
+    border-color: #81c784 !important;
+}
+
+.btn-outline-info {
+    color: #007a35 !important;
+    border-color: #007a35 !important;
+}
+
+.btn-outline-info:hover {
+    background-color: #81c784 !important;
+    color: #000 !important;
+}
+
+.bg-info.bg-opacity-10,
+.bg-info-subtle {
+    background-color: #e8f5e9 !important;
+}
+
+/* ========================================================================
+   SUCCESS (Green to Orange/Brownish if necessary, or keep green if OK - user said NO red/blue, but usually success is green. We will force to orange to respect "all orange" if strict)
+   For safety based on user's exact quote "aucune couleur rouge ou bleu, couleur principale orange", we will focus strictly on eliminating Red / Blue and standardizing primary.
+   But if they want EVERYTHING orange, we could do success. Let's keep success as green for now to make "Validation" clear, but we'll tone down any other variants.
+   Actually, the user said "la couleur principale est le orange je ne veux pas voir de bouton en rouge ou en bleu tout doit etre normalement fonctionnelle".
+   So Green for success is probably fine. We only overwrite Primary, Danger, Info.
+   ======================================================================== */
+
+/* Sidebar / Dashboard overriding specific variables found in dashboard.css */
+:root {
+    --cp-danger: #009A44 !important;
+    --cp-danger-light: #e8f5e9 !important;
+    --cp-info: #81c784 !important;
+    --cp-info-light: #e8f5e9 !important;
+    --cp-success: var(--cp-green-main) !important;
+    /* Standardized to theme orange */
+    --cp-success-light: #e8f5e9 !important;
+}
+
+/* Sidebar Header Theme (Request: Orange background, White icons/text) */
+.cp-sidebar-header {
+    background-color: var(--cp-green-main) !important;
+    border-bottom: 1px solid var(--cp-green-dark) !important;
+}
+
+.cp-sidebar-header .cp-brand,
+.cp-sidebar-header .cp-brand i,
+.cp-sidebar-header .cp-entreprise-nom,
+.cp-sidebar-header .cp-sidebar-close i {
+    color: #ffffff !important;
+}
+
+/* Force specific classes from old template */
+.cp-bg-danger {
+    background-color: var(--cp-danger-light) !important;
+    color: var(--cp-danger) !important;
+}
+
+.cp-bg-info {
+    background-color: var(--cp-info-light) !important;
+    color: var(--cp-info) !important;
+}
+
+.cp-bg-primary {
+    background-color: var(--cp-green-light) !important;
+    color: var(--cp-green-main) !important;
+}
+
+.cp-bg-success {
+    background-color: var(--cp-green-light) !important;
+    color: var(--cp-green-main) !important;
+}
+
+.cp-bg-green {
+    background-color: var(--cp-green-light) !important;
+    color: var(--cp-green-main) !important;
+}
+
+.text-danger {
+    color: var(--cp-danger) !important;
+}
+
+.text-info {
+    color: var(--cp-info) !important;
+}
+
+.badge.bg-danger {
+    background-color: var(--cp-danger) !important;
+    color: #fff !important;
+}
+
+.badge.bg-info {
+    background-color: var(--cp-info) !important;
+    color: #000 !important;
+}
+
+.badge.bg-primary {
+    background-color: var(--cp-green-main) !important;
+    color: #fff !important;
+}
+
+.badge.bg-success {
+    background-color: var(--cp-green-main) !important;
+    color: #fff !important;
+}
+
+/* Any dropdown item active or hover that is red */
+.dropdown-item.text-danger:hover,
+.dropdown-item.text-danger:focus {
+    background-color: var(--cp-danger) !important;
+    color: #fff !important;
+}
+
+.dropdown-item.text-danger:hover i,
+.dropdown-item.text-danger:focus i {
+    color: #fff !important;
+}
+
+/* Overwrite root dashboard primary */
+.sidebar .nav-item.active .nav-link {
+    color: var(--cp-green-main) !important;
+}
+
+/* Missing utility classes for incidents page */
+.text-green {
+    color: var(--cp-green-main) !important;
+}
+
+.btn-outline-green {
+    color: var(--cp-green-main);
+    border-color: var(--cp-green-main);
+}
+.btn-outline-green:hover,
+.btn-outline-green:focus {
+    background-color: var(--cp-green-main);
+    color: #fff;
+    border-color: var(--cp-green-main);
+}
